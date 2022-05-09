@@ -1,0 +1,25 @@
+<h1>Login page</h1>
+
+<form method="post" nz-form [formGroup]="formLogin" (ngSubmit)="handleLogin()">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="6" nzFor="email">E-mail</nz-form-label>
+      <nz-form-control [nzSpan]="14">
+        <input nz-input formControlName="email" name="email" type="email" id="email">
+      </nz-form-control>
+    </nz-form-item >
+
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="password">Password</nz-form-label>
+        <nz-form-control [nzSpan]="14">
+          <input nz-input formControlName="password" name="password" type="password" id="password">
+        </nz-form-control>
+      </nz-form-item >
+
+    <nz-form-item>
+        <nz-form-control [nzSpan]="14" nzOffset="6">
+            <button nz-button>Login</button>
+        </nz-form-control>
+    </nz-form-item>
+
+    
+  </form>
