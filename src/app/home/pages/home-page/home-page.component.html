@@ -1,0 +1,31 @@
+<h3 class="font-bold" nz-typography>Subscriber List</h3>
+<nz-card>
+
+    <!-- <app-subscriber-filter></app-subscriber-filter> -->
+    
+    <div class="flex justify-between">
+        <div class="w-full md:w-1/2">
+            <nz-input-group [nzSuffix]="suffixSearchTemplate">
+                <input type="text" nz-input
+                [formControl]="searchControl"
+                placeholder="Enter a subscriber name, broadband account, LOID, gateway alias, gateway SN, or gateway MAC address">
+            </nz-input-group>
+            <ng-template #suffixSearchTemplate>     
+                <i nz-icon nzType="search" nzTheme="outline"></i>
+            </ng-template>
+        </div>
+        
+        <div>
+            <button nz-button nzType="primary">Import</button>
+            <button nz-button nzType="primary" class="ml-2">Export</button>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <app-subscriber-table 
+            [loading]="loading"
+            [subscribers]="subscribers">
+        </app-subscriber-table>
+    </div>
+
+</nz-card>

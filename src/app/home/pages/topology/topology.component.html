@@ -1,0 +1,43 @@
+<nz-card>
+
+    <div class="flex justify-between items-center">
+        <div class="flex items-center">
+            <nz-button-group>
+                <button nz-button 
+                        [nzType]="tab === 'index' ? 'primary' : 'default'" 
+                        (click)="changeTab('index')">Topology</button>
+                <button nz-button 
+                        [nzType]="tab === 'devices' ? 'primary': 'default'"
+                        (click)="changeTab('devices')">Devices</button>
+            </nz-button-group>
+            <span class="mx-2" nz-typography nzType="secondary">Device legends</span>
+            <span nz-typography nzType="secondary">
+                <i nz-icon nzType="question-circle"  nzTheme="outline"></i>
+            </span>
+        </div>
+
+        <div class="flex items-center">
+            <i nz-icon nzType="setting" class="mx-2" nzTheme="outline"></i>
+            <a nz-typography (click)="openWifiConfig()">Wifi Configuratioin</a>
+        </div>
+        <!-- <div>
+            <nz-select [ngModel]="rateType">
+                <nz-option nzLabel="None" nzValue="none"></nz-option>
+                <nz-option nzLabel="AP" nzValue="ap"></nz-option>
+            </nz-select>
+    
+            <i class="cursor-pointer ml-2" nz-icon nzType="reload" nzTheme="outline"></i>
+        </div> -->
+    </div>
+
+    <app-topology-index 
+        *ngIf="tab === 'index'"
+        [path]="topo">
+    </app-topology-index>
+
+    <app-topology-device 
+        *ngIf="tab === 'devices'"
+        [path]="topo">
+    </app-topology-device>
+
+</nz-card>

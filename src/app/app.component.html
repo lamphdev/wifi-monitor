@@ -1,0 +1,4 @@
+<app-header *ngIf="layoutService.showHeader"></app-header>
+<div [class.p-5]="layoutService.showHeader">
+    <router-outlet></router-outlet>
+</div>
