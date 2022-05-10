@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { DeviceService } from '../../services/device.service';
+import { WifiSettingComponent } from '../wifi-setting/wifi-setting.component';
 
 type TabType = 'index' | 'devices';
 
@@ -10,10 +12,10 @@ type TabType = 'index' | 'devices';
 })
 export class TopologyComponent implements OnInit {
 
-  rateType = 'internet';
+  rateType = 'none';
   tab: TabType = 'index';
 
-  constructor(private devicesService: DeviceService) { }
+  constructor(private modal: NzModalService) { }
 
   ngOnInit(): void {
     
@@ -21,6 +23,13 @@ export class TopologyComponent implements OnInit {
 
   changeTab(newTab: TabType): void {
     this.tab = newTab;
+  }
+
+  openWifiConfig(): void {
+    this.modal.create({
+      nzContent: WifiSettingComponent,
+      nzFooter: null
+    })
   }
 
 }

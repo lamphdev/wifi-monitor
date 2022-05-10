@@ -9,6 +9,7 @@ export class DeviceTableComponent implements OnInit , OnChanges{
 
   @Input() devices: any[];
   @Input() loading = false;
+  @Input() groupBy = 'none';
   flattern: any[] = [];
   expandSet = new Set<number>();
 

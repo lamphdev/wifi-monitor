@@ -1,4 +1,5 @@
 <nz-table #subscribes 
+    nzSize="small"
     [nzData]="['']" 
     [nzLoading]="loading"
     nzTableLayout="fixed" 
@@ -23,7 +24,7 @@
     <tbody>
         <tr *ngFor="let subscriber of subscribers">
             <td>
-                <a nz-typography href="">{{subscriber.mac_adress}}</a>
+                <a nz-typography routerLink="/topology">{{subscriber.mac_adress}}</a>
             </td>
             <td>{{subscriber.gateway_sn}}</td>
             <td>{{subscriber.LOID || '--'}}</td>

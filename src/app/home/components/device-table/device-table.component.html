@@ -1,8 +1,4 @@
-<nz-table
-    nzSize="small"
-    [nzData]="['']"
-    [nzShowPagination]="false"
-    [nzLoading]="loading">
+<nz-table nzSize="small" [nzData]="['']" [nzShowPagination]="false" [nzLoading]="loading">
     <thead>
         <tr>
             <th>Device Name/Alias</th>
@@ -20,15 +16,14 @@
             <th>Last Online/Offline time</th>
         </tr>
     </thead>
-    <tbody>
+
+    <tbody *ngIf="groupBy === 'ap'">
         <ng-container *ngFor="let row of flattern">
             <tr *ngIf="row.level === 0 || (expandSet.has(row.parent))">
-                <td 
-                    [nzIndentSize]="row.level * 20"
-                    [nzShowExpand]="row.children"
+                <td [nzIndentSize]="row.level * 20" 
+                    [nzShowExpand]="row.children" 
                     [nzExpand]="expandSet.has(row.key)"
-                    (nzExpandChange)="changeExpand(row.key, $event)"
-                >
+                    (nzExpandChange)="changeExpand(row.key, $event)">
                     {{row.device_name}}
                 </td>
                 <td>{{row.model || '--'}}</td>
@@ -51,21 +46,21 @@
                 <td>
                     <div class="flex items-center">
                         <i nz-icon nzType="caret-up" class="text-primary" nzTheme="outline"></i>
-                        {{row.negotiated_max}}
+                        {{row.negotiated_max}}&nbsp;Mbit/s
                     </div>
                     <div class="flex items-center">
                         <i nz-icon nzType="caret-down" class="text-success" nzTheme="outline"></i>
-                        {{row.real_time_min}}
+                        {{row.real_time_min}}&nbsp;Mbit/s
                     </div>
                 </td>
                 <td>
                     <div class="flex items-center">
                         <i nz-icon nzType="caret-up" class="text-primary" nzTheme="outline"></i>
-                        {{row.real_time_max}}
+                        {{row.real_time_max}}&nbsp;Mbit/s
                     </div>
                     <div class="flex items-center">
                         <i nz-icon nzType="caret-down" class="text-success" nzTheme="outline"></i>
-                        {{row.real_time_min}}
+                        {{row.real_time_min}}&nbsp;Mbit/s
                     </div>
                 </td>
                 <td>{{row.wifi_standard_in_use || '--'}}</td>
@@ -75,4 +70,55 @@
             </tr>
         </ng-container>
     </tbody>
+
+
+    <tbody *ngIf="groupBy === 'none'">
+        <tr *ngFor="let row of devices">
+            <td>
+                {{row.device_name}}
+            </td>
+            <td>{{row.model || '--'}}</td>
+            <td>
+                <a href="" nz-typography>{{row.mac_address}}</a>
+            </td>
+            <td>{{row.ip_address || '--'}}</td>
+            <td>{{row.access_port || '--'}}</td>
+            <td>
+                <div class="flex flex-nowrap items-center">
+                    <i nz-icon nzType="wifi" [ngClass]="classIcon(row)" class="mr-1" nzTheme="outline"></i>
+                    <span [ngClass]="classIcon(row)">{{row.wifi_standard_in_use}}&nbsp;</span>
+                    <span>{{row.rssi}}&nbsp;dBm</span>
+                </div>
+                <span *ngIf="!row.rssi">--</span>
+            </td>
+            <td>
+                {{row.used_antenna ? row.wifi_standard_in_use + ' ' + row.used_antenna : '--'}}
+            </td>
+            <td>
+                <div class="flex items-center">
+                    <i nz-icon nzType="caret-up" class="text-primary" nzTheme="outline"></i>
+                    {{row.negotiated_max}}&nbsp;Mbit/s
+                </div>
+                <div class="flex items-center">
+                    <i nz-icon nzType="caret-down" class="text-success" nzTheme="outline"></i>
+                    {{row.real_time_min}}&nbsp;Mbit/s
+                </div>
+            </td>
+            <td>
+                <div class="flex items-center">
+                    <i nz-icon nzType="caret-up" class="text-primary" nzTheme="outline"></i>
+                    {{row.real_time_max}}&nbsp;Mbit/s
+                </div>
+                <div class="flex items-center">
+                    <i nz-icon nzType="caret-down" class="text-success" nzTheme="outline"></i>
+                    {{row.real_time_min}}&nbsp;Mbit/s
+                </div>
+            </td>
+            <td>{{row.wifi_standard_in_use || '--'}}</td>
+            <td>{{row.value_address || '--'}}</td>
+            <td>{{row.energy_saving || '--'}}</td>
+            <td>{{row.last_time | date : 'dd/MM/yyyy HH:mm:ss'}}</td>
+        </tr>
+    </tbody>
+
 </nz-table>

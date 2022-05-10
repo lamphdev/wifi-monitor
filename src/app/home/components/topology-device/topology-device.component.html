@@ -1,25 +1,37 @@
-<div class="flex justify-end mt-3">
-    <span class="mr-2">RSSI:</span>
-    <div class="flex items-center">
-        <span class="mr-1">Good</span>
-        <span class="inline-block w-5 h-5 bg-success text-success"></span>
-    </div>
+<div class="flex justify-between mt-3">
 
-    <div class="flex items-center mx-2">
-        <span class="mr-1">Fair</span>
-        <span class="inline-block w-5 h-5 bg-primary text-primary"></span>
+    <div>
+        <span class="font-bold mr-2">Group By</span>
+        <nz-select [(ngModel)]="groupBy">
+            <nz-option nzLabel="None" nzValue="none"></nz-option>
+            <nz-option nzLabel="AP" nzValue="ap"></nz-option>
+        </nz-select>
     </div>
 
     <div class="flex items-center">
-        <span class="mr-1">Poor</span>
-        <span class="inline-block w-5 h-5 bg-warning text-warning"></span>
+        <span class="mr-2">RSSI:</span>
+        <div class="flex items-center">
+            <span class="mr-1">Good</span>
+            <span class="inline-block w-5 h-5 bg-success text-success"></span>
+        </div>
+
+        <div class="flex items-center mx-2">
+            <span class="mr-1">Fair</span>
+            <span class="inline-block w-5 h-5 bg-primary text-primary"></span>
+        </div>
+
+        <div class="flex items-center">
+            <span class="mr-1">Poor</span>
+            <span class="inline-block w-5 h-5 bg-warning text-warning"></span>
+        </div>
     </div>
 
 </div>
 
 <div class="mt-3">
-    <app-device-table
-        [loading]="loading"
+    <app-device-table 
+        [groupBy]="groupBy"
+        [loading]="loading" 
         [devices]="devices">
     </app-device-table>
 </div>

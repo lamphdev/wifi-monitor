@@ -9,6 +9,7 @@ import { DeviceService } from '../../services/device.service';
 })
 export class TopologyDeviceComponent implements OnInit {
 
+  groupBy = 'none';
   devices: any[] = [];
   loading = false;
 

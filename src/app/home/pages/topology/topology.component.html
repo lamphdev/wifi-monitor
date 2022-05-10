@@ -16,13 +16,18 @@
             </span>
         </div>
 
-        <div>
+        <div class="flex items-center">
+            <i nz-icon nzType="setting" class="mx-2" nzTheme="outline"></i>
+            <a nz-typography (click)="openWifiConfig()">Wifi Configuratioin</a>
+        </div>
+        <!-- <div>
             <nz-select [ngModel]="rateType">
-                <nz-option nzLabel="Internet" nzValue="internet"></nz-option>
+                <nz-option nzLabel="None" nzValue="none"></nz-option>
+                <nz-option nzLabel="AP" nzValue="ap"></nz-option>
             </nz-select>
     
             <i class="cursor-pointer ml-2" nz-icon nzType="reload" nzTheme="outline"></i>
-        </div>
+        </div> -->
     </div>
 
     <app-topology-index *ngIf="tab === 'index'"></app-topology-index>
