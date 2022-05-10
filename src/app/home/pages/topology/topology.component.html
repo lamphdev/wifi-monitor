@@ -1,0 +1,31 @@
+<nz-card>
+
+    <div class="flex justify-between items-center">
+        <div class="flex items-center">
+            <nz-button-group>
+                <button nz-button 
+                        [nzType]="tab === 'index' ? 'primary' : 'default'" 
+                        (click)="changeTab('index')">Topology</button>
+                <button nz-button 
+                        [nzType]="tab === 'devices' ? 'primary': 'default'"
+                        (click)="changeTab('devices')">Devices</button>
+            </nz-button-group>
+            <span class="mx-2" nz-typography nzType="secondary">Device legends</span>
+            <span nz-typography nzType="secondary">
+                <i nz-icon nzType="question-circle"  nzTheme="outline"></i>
+            </span>
+        </div>
+
+        <div>
+            <nz-select [ngModel]="rateType">
+                <nz-option nzLabel="Internet" nzValue="internet"></nz-option>
+            </nz-select>
+    
+            <i class="cursor-pointer ml-2" nz-icon nzType="reload" nzTheme="outline"></i>
+        </div>
+    </div>
+
+    <app-topology-index *ngIf="tab === 'index'"></app-topology-index>
+    <app-topology-device *ngIf="tab === 'devices'"></app-topology-device>
+
+</nz-card>

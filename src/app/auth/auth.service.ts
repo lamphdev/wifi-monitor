@@ -6,9 +6,12 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
 
+  userInfo: any;
+
   constructor(private router: Router) { }
 
   login(loginData: any) {
+    this.userInfo = loginData.email;
     localStorage.setItem('isLoggedIn', 'true');
     this.router.navigate(['']);
   }

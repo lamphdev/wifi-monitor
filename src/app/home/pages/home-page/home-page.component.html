@@ -1,1 +1,35 @@
-<h1>Home Page Work</h1>
+<h3 class="font-bold" nz-typography>Subscriber List</h3>
+<nz-card>
+    <div>
+        <span>Subnet:</span>
+        <button nz-button nzType="primary" class="mx-3">ROOT</button>
+    </div>
+
+    <app-subscriber-filter></app-subscriber-filter>
+    
+    <div class="flex justify-between">
+        <div class="w-full md:w-1/2">
+            <nz-input-group [nzSuffix]="suffixSearchTemplate">
+                <input type="text" nz-input
+                placeholder="Enter a subscriber name, broadband account, LOID, gateway alias, gateway SN, or gateway MAC address">
+            </nz-input-group>
+            <ng-template #suffixSearchTemplate>     
+                <i nz-icon nzType="search" nzTheme="outline"></i>
+            </ng-template>
+        </div>
+        
+        <div>
+            <button nz-button>Import</button>
+            <button nz-button class="mx-2">Export</button>
+            <button nz-button>Export Record</button>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <app-subscriber-table 
+            [loading]="loading"
+            [subscribers]="subscribers">
+        </app-subscriber-table>
+    </div>
+
+</nz-card>

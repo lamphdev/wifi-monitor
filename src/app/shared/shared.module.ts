@@ -5,12 +5,24 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 const antdModules = [
   NzLayoutModule,
   NzInputModule,
   NzFormModule,
-  NzButtonModule
+  NzButtonModule,
+  NzCardModule,
+  NzIconModule,
+  NzDividerModule,
+  NzTypographyModule,
+  NzTableModule,
+  NzSelectModule
 ]
 
 @NgModule({
