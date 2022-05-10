@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { WifiSettingComponent } from '../wifi-setting.component';
 
 @Component({
   selector: 'app-general',
@@ -11,7 +12,10 @@ export class GeneralComponent implements OnInit {
   passwordVisible = false;
   chanels = [1, 2, 3, 4, 5];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    @Inject(WifiSettingComponent) private parent: WifiSettingComponent
+  ) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -36,9 +40,7 @@ export class GeneralComponent implements OnInit {
     }
   }
 
-  genderChange(value: string): void {
-    this.validateForm
-      .get('note')!
-      .setValue(value === 'male' ? 'Hi, man!' : 'Hi, lady!');
+  doClose() {
+    this.parent.onClose.emit('general');
   }
 }

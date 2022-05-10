@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { GeneralComponent } from './general/general.component';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-wifi-setting',
@@ -7,6 +6,8 @@ import { GeneralComponent } from './general/general.component';
   styleUrls: ['./wifi-setting.component.scss'],
 })
 export class WifiSettingComponent implements OnInit {
+  @Output() onClose: EventEmitter<any> = new EventEmitter();
+
   tabs = [
     {
       name: 'General Setting',
