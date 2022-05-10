@@ -5,6 +5,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent } from './pages/login/login.component';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LayoutService } from '../layout/layout.service';
 
 
 @NgModule({
@@ -19,4 +20,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule
   ]
 })
-export class AuthModule { }
+export class AuthModule { 
+  
+}

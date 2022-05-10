@@ -21,6 +21,7 @@ import { TopologyComponent } from './pages/topology/topology.component';
 import { DeviceTableComponent } from './components/device-table/device-table.component';
 import { TopologyIndexComponent } from './components/topology-index/topology-index.component';
 import { TopologyDeviceComponent } from './components/topology-device/topology-device.component';
+import { LayoutService } from '../layout/layout.service';
 
 
 @NgModule({
@@ -51,4 +52,6 @@ import { TopologyDeviceComponent } from './components/topology-device/topology-d
     NzSwitchModule
   ],
 })
-export class HomeModule { }
+export class HomeModule { 
+  
+}
