@@ -1,0 +1,48 @@
+<nz-table #subscribes 
+    [nzData]="['']" 
+    [nzLoading]="loading"
+    nzTableLayout="fixed" 
+    [nzShowPagination]="false">
+    <thead>
+        <tr>
+            <th>Gateway MAC Adress</th>
+            <th>Gateway SN</th>
+            <th>LOID</th>
+            <th>Gateway Alias</th>
+            <th nzEllipsis>Broadband Account</th>
+            <th>Subnet Name</th>
+            <th nzEllipsis>Subscribed Bandwidth</th>
+            <th>Any Issue Resolved</th>
+            <th>Value-Added Service</th>
+            <th>Gateway Model</th>
+            <th>Current Software Version</th>
+            <th>Online Status</th>
+            <th>Operation</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let subscriber of subscribers">
+            <td>
+                <a nz-typography href="">{{subscriber.mac_adress}}</a>
+            </td>
+            <td>{{subscriber.gateway_sn}}</td>
+            <td>{{subscriber.LOID || '--'}}</td>
+            <td>{{subscriber.gateway_alias || '--'}}</td>
+            <td>{{subscriber.broadbrand_account}}</td>
+            <td>{{subscriber.subnet_name}}</td>
+            <td>{{subscriber.bandwidth}}</td>
+            <td>{{subscriber.any_issue_resolved ? 'Yes': 'No'}}</td>
+            <td>{{subscriber.value_added_service}}</td>
+            <td>{{subscriber.gateway_model}}</td>
+            <td>{{subscriber.software_version}}</td>
+            <td>
+                <span 
+                    [ngClass]="{'bg-success': subscriber.online_status, 'bg-secondary': !subscriber.online_status}" 
+                    class="py-1 px-2 rounded text-white">
+                    {{subscriber.online_status ? 'online' : 'offline'}}
+                </span>
+            </td>
+            <td></td>
+        </tr>
+    </tbody>
+</nz-table>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { finalize, take } from 'rxjs';
+import { SubscriberService } from '../../services/subscriber.service';
 
 @Component({
   selector: 'app-home-page',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePageComponent implements OnInit {
 
-  constructor() { }
+  subscribers: any[];
+  loading = false;
+
+  constructor(private subscribeService: SubscriberService) { }
 
   ngOnInit(): void {
+    this.loading = true;
+    this.subscribeService.getSubscriber().pipe(
+      take(1),
+      finalize(() => this.loading = false)
+    ).subscribe(res => this.subscribers = res);
   }
 
 }

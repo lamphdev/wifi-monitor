@@ -14,6 +14,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { WifiSettingFormComponent } from './pages/wifi-setting/wifi-setting-form/wifi-setting-form.component';
+import { SharedModule } from '../shared/shared.module';
+import { SubscriberFilterComponent } from './components/subscriber-filter/subscriber-filter.component';
+import { SubscriberTableComponent } from './components/subscriber-table/subscriber-table.component';
 
 
 @NgModule({
@@ -26,6 +29,7 @@ import { WifiSettingFormComponent } from './pages/wifi-setting/wifi-setting-form
   imports: [
     CommonModule,
     FormsModule,
+    SharedModule,
     ReactiveFormsModule,
     HomeRoutingModule,
     NzTabsModule,
@@ -35,6 +39,8 @@ import { WifiSettingFormComponent } from './pages/wifi-setting/wifi-setting-form
     NzButtonModule,
     NzInputModule,
     NzSwitchModule,
-  ]
+    SubscriberFilterComponent,
+    SubscriberTableComponent
+  ],
 })
 export class HomeModule { }
