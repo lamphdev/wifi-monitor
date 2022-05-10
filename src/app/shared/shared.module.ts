@@ -10,6 +10,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 const antdModules = [
   NzLayoutModule,
@@ -20,7 +21,8 @@ const antdModules = [
   NzIconModule,
   NzDividerModule,
   NzTypographyModule,
-  NzTableModule
+  NzTableModule,
+  NzSelectModule
 ]
 
 @NgModule({

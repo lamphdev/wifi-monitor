@@ -1300,3 +1300,142 @@ export const subscribers = [{
   "bandwidth": null
 }]
 
+
+
+
+
+export const devices = [{
+  "device_name": "Temp",
+  "model": "0.91",
+  "mac_address": "F8-48-E2-B0-7D-46",
+  "ip_address": "129.85.147.173",
+  "access_port": "Crimson",
+  "rssi": 63,
+  "used_antenna": "2 * 2",
+  "negotiated_min": 45,
+  "negotiated_max": 94,
+  "real_time_min": 93,
+  "real_time_max": 55,
+  "wifi_standard_in_use": null,
+  "value_address": null,
+  "energy_saving": null,
+  "last_time": "7/13/2021",
+  children: [
+    {
+      "device_name": "Matsoft",
+      "model": "6.4",
+      "mac_address": "F8-BF-60-70-46-37",
+      "ip_address": "59.59.85.231",
+      "access_port": "Puce",
+      "rssi": 71,
+      "used_antenna": "1 * 1",
+      "negotiated_min": 67,
+      "negotiated_max": 7,
+      "real_time_min": 61,
+      "real_time_max": 58,
+      "wifi_standard_in_use": "2.4G",
+      "value_address": null,
+      "energy_saving": null,
+      "last_time": "5/16/2021"
+    }, {
+      "device_name": "Domainer",
+      "model": "0.5.8",
+      "mac_address": "8C-7F-92-F0-FE-F6",
+      "ip_address": "148.63.204.22",
+      "access_port": "Violet",
+      "rssi": 99,
+      "used_antenna": "4 * 4",
+      "negotiated_min": 96,
+      "negotiated_max": 6,
+      "real_time_min": 46,
+      "real_time_max": 23,
+      "wifi_standard_in_use": "5G",
+      "value_address": null,
+      "energy_saving": null,
+      "last_time": "6/21/2021"
+    }
+  ]
+}, {
+  "device_name": "Trippledex",
+  "model": "9.8",
+  "mac_address": "13-E5-DD-BF-DF-1B",
+  "ip_address": "161.218.67.73",
+  "access_port": "Violet",
+  "rssi": 57,
+  "used_antenna": "2 * 2",
+  "negotiated_min": 75,
+  "negotiated_max": 20,
+  "real_time_min": 43,
+  "real_time_max": 34,
+  "wifi_standard_in_use": "5G",
+  "value_address": null,
+  "energy_saving": null,
+  "last_time": "7/23/2021"
+}, {
+  "device_name": "Matsoft",
+  "model": "6.4",
+  "mac_address": "F8-BF-60-70-46-37",
+  "ip_address": "59.59.85.231",
+  "access_port": "Puce",
+  "rssi": 71,
+  "used_antenna": "1 * 1",
+  "negotiated_min": 67,
+  "negotiated_max": 7,
+  "real_time_min": 61,
+  "real_time_max": 58,
+  "wifi_standard_in_use": "2.4G",
+  "value_address": null,
+  "energy_saving": null,
+  "last_time": "5/16/2021"
+}, {
+  "device_name": "Domainer",
+  "model": "0.5.8",
+  "mac_address": "8C-7F-92-F0-FE-F6",
+  "ip_address": "148.63.204.22",
+  "access_port": "Violet",
+  "rssi": 99,
+  "used_antenna": "4 * 4",
+  "negotiated_min": 96,
+  "negotiated_max": 6,
+  "real_time_min": 46,
+  "real_time_max": 23,
+  "wifi_standard_in_use": "5G",
+  "value_address": null,
+  "energy_saving": null,
+  "last_time": "6/21/2021",
+  children: [
+    {
+      "device_name": "Keylex",
+      "model": "6.17",
+      "mac_address": "9C-4F-3E-A6-03-9C",
+      "ip_address": "172.96.187.170",
+      "access_port": "Pink",
+      "rssi": 55,
+      "used_antenna": "2 * 2",
+      "negotiated_min": 21,
+      "negotiated_max": 16,
+      "real_time_min": 71,
+      "real_time_max": 51,
+      "wifi_standard_in_use": "2.4G",
+      "value_address": null,
+      "energy_saving": null,
+      "last_time": "12/28/2021"
+    }
+  ]
+}, {
+  "device_name": "Keylex",
+  "model": "6.17",
+  "mac_address": "9C-4F-3E-A6-03-9C",
+  "ip_address": "172.96.187.170",
+  "access_port": "Pink",
+  "rssi": 55,
+  "used_antenna": "2 * 2",
+  "negotiated_min": 21,
+  "negotiated_max": 16,
+  "real_time_min": 71,
+  "real_time_max": 51,
+  "wifi_standard_in_use": "2.4G",
+  "value_address": null,
+  "energy_saving": null,
+  "last_time": "12/28/2021"
+}];

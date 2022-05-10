@@ -17,6 +17,10 @@ import { WifiSettingFormComponent } from './pages/wifi-setting/wifi-setting-form
 import { SharedModule } from '../shared/shared.module';
 import { SubscriberFilterComponent } from './components/subscriber-filter/subscriber-filter.component';
 import { SubscriberTableComponent } from './components/subscriber-table/subscriber-table.component';
+import { TopologyComponent } from './pages/topology/topology.component';
+import { DeviceTableComponent } from './components/device-table/device-table.component';
+import { TopologyIndexComponent } from './components/topology-index/topology-index.component';
+import { TopologyDeviceComponent } from './components/topology-device/topology-device.component';
 
 
 @NgModule({
@@ -25,6 +29,12 @@ import { SubscriberTableComponent } from './components/subscriber-table/subscrib
     WifiSettingComponent,
     GeneralComponent,
     WifiSettingFormComponent,
+    SubscriberFilterComponent,
+    SubscriberTableComponent,
+    TopologyComponent,
+    DeviceTableComponent,
+    TopologyIndexComponent,
+    TopologyDeviceComponent,
   ],
   imports: [
     CommonModule,
@@ -38,9 +48,7 @@ import { SubscriberTableComponent } from './components/subscriber-table/subscrib
     NzSelectModule,
     NzButtonModule,
     NzInputModule,
-    NzSwitchModule,
-    SubscriberFilterComponent,
-    SubscriberTableComponent
+    NzSwitchModule
   ],
 })
 export class HomeModule { }
