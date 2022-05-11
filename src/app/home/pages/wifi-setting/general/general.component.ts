@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { WifiSettingService } from 'src/app/home/services/wifi-setting.service';
 import { WifiSettingComponent } from '../wifi-setting.component';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-general',
@@ -31,7 +32,7 @@ export class GeneralComponent implements OnInit {
       security_mode: [''],
       preshared_key: [''],
     });
-    this.wifiSettingService.getGeneralSetting({}).subscribe(response => {
+    this.wifiSettingService.getGeneralSetting(uuidv4()).subscribe(response => {
       let data = response.objects[0].param;
       this.validateForm.patchValue({
         ssid: data.ssid,

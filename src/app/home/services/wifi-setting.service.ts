@@ -1,13 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, delay, catchError, of } from 'rxjs';
+import { BehaviorSubject, Observable, delay, catchError, of, flatMap, mergeMap } from 'rxjs';
+import { MqttClientService } from './mqtt-client.service';
+
+const WIFI_GENERAL_TOPIC = "vht/mesh/demo/VTGR123456";
 
 @Injectable({
   providedIn: 'root'
 })
 export class WifiSettingService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private mqttClient: MqttClientService) { }
 
   getWifiSetting(type: '2_4ghz' | '5ghz', request: any): Observable<any> {
     let res_2_4ghz: any = {
@@ -47,31 +50,30 @@ export class WifiSettingService {
       ]
     }
 
+    this.mqttClient.connect(WIFI_GENERAL_TOPIC)
     return new BehaviorSubject(type === '2_4ghz' ? res_2_4ghz : res5ghz).pipe(delay(500));
   }
 
-  getGeneralSetting(request: any): Observable<any> {
-    let response: any = {
-      "from": "VTGR123456",
-      "to": "02c29d2a-dbfd-2d91-99c9-306d537e9856",
+  getGeneralSetting(sessionId: string): Observable<any> {
+
+    var payload = {
+      "from": sessionId,
+      "to": "VTGR123456",
       "id": 3,
-      "type": "get_response",
+      "type": "get",
       "objects": [
         {
           "name": "wifi",
-          "instance": 1,
-          "param": {
-            "ssid_index": 1,
-            "ssid": "VIETTEL_ABC123",
-            "security_mode": "WPA/WPA2",
-            "encrypt_mode": "TKIP/AES",
-            "preshared_key": "123456a@"
-          }
+          "params": []
         }
       ]
     }
-
-    return new BehaviorSubject(response).pipe(delay(500));
+    return this.mqttClient.publish(WIFI_GENERAL_TOPIC, payload)
+      .pipe(mergeMap(_ => {
+        console.log("publish to " + WIFI_GENERAL_TOPIC, payload);
+        console.log("subcrible to " + WIFI_GENERAL_TOPIC + "/" + sessionId);
+        return this.mqttClient.connect(WIFI_GENERAL_TOPIC + "/" + sessionId)
+      }))
   }
 
   settingGeneral(settingRequest: any): Observable<any> {
@@ -82,27 +84,26 @@ export class WifiSettingService {
     return new BehaviorSubject({}).pipe(delay(500));
   }
 
-  getWifiSettingConfig() {
-    let url = 'http://localhost:8080/wifi-setting/common-config';
-    return this.http.get(url).pipe(catchError(err => {
-      return of({
-        "ENCRYPT_MODE": [
-          "TKIP/AES"
-        ],
-        "WIFI_MODE": [
-          "b/g/n",
-          "a/n/ac"
-        ],
-        "CHANNEL": [
-          "15",
-          "56"
-        ],
-        "SECURITY_MODE": [
-          "WPA/WPA2"
-        ]
-      });
-    }));
-  }
+}
+
+var generalResponse = {
+  "from": "VTGR123456",
+  "to": "02c29d2a-dbfd-2d91-99c9-306d537e9856",
+  "id": 3,
+  "type": "get_response",
+  "objects": [
+    {
+      "name": "wifi",
+      "instance": 1,
+      "param": {
+        "ssid_index": 1,
+        "ssid": "VIETTEL_ABC123",
+        "security_mode": "WPA/WPA2",
+        "encrypt_mode": "TKIP/AES",
+        "preshared_key": "123456a@"
+      }
+    }
+  ]
 }
 
 var requestGeneral = {

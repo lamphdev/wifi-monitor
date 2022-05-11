@@ -25,16 +25,28 @@ export class WifiSettingComponent implements OnInit {
     },
   ];
 
-  common_config = {};
+  common_config = {
+    "ENCRYPT_MODE": [
+      "TKIP/AES"
+    ],
+    "WIFI_MODE": [
+      "b/g/n",
+      "a/n/ac"
+    ],
+    "CHANNEL": [
+      "15",
+      "56"
+    ],
+    "SECURITY_MODE": [
+      "WPA/WPA2"
+    ]
+  };
 
   constructor(private wifiSetting: WifiSettingService) { }
 
   ngOnInit(): void {
     this.onClose.subscribe(evt => {
       this.close(evt);
-    })
-    this.wifiSetting.getWifiSettingConfig().subscribe(res => {
-      this.common_config = res;
     })
   }
 
