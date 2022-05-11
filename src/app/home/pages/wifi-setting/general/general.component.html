@@ -15,8 +15,9 @@
         <nz-form-label [nzSpan]="7" nzFor="encrypt_mode">Authentication mode</nz-form-label>
         <nz-form-control [nzSpan]="12">
             <nz-select id="encrypt_mode" formControlName="encrypt_mode">
-                <nz-option nzValue="TKIP / AES" nzLabel="TKIP / AES"></nz-option>
-                <nz-option nzValue="WEP" nzLabel="WEP"></nz-option>
+                <ng-container *ngFor="let item of common_config.ENCRYPT_MODE">
+                    <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
+                </ng-container>
             </nz-select>
         </nz-form-control>
     </nz-form-item>
@@ -24,7 +25,9 @@
         <nz-form-label [nzSpan]="7" nzFor="security_mode">Security mode</nz-form-label>
         <nz-form-control [nzSpan]="12">
             <nz-select id="security_mode" formControlName="security_mode">
-                <nz-option nzValue="WPA / WPA2" nzLabel="WPA / WPA2"></nz-option>
+                <ng-container *ngFor="let item of common_config.SECURITY_MODE">
+                    <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
+                </ng-container>
             </nz-select>
         </nz-form-control>
     </nz-form-item>

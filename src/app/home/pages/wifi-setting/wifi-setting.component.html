@@ -6,13 +6,13 @@
 
         <div [ngSwitch]="tab.id">
             <div *ngSwitchCase="'general'">
-                <app-general></app-general>
+                <app-general [common_config]="common_config"></app-general>
             </div>
             <div *ngSwitchCase="'2_4ghz'">
-                <app-wifi-setting-form type="2_4ghz"></app-wifi-setting-form>
+                <app-wifi-setting-form type="2_4ghz" [common_config]="common_config"></app-wifi-setting-form>
             </div>
             <div *ngSwitchCase="'5ghz'">
-                <app-wifi-setting-form type="5ghz"></app-wifi-setting-form>
+                <app-wifi-setting-form type="5ghz" [common_config]="common_config"></app-wifi-setting-form>
             </div>
 
         </div>

@@ -8,15 +8,19 @@
     <nz-form-item>
         <nz-form-label [nzSpan]="7" nzFor="mode">Mode</nz-form-label>
         <nz-form-control [nzSpan]="12">
-            <input id="mode" type="text" nz-input formControlName="mode" />
+            <nz-select id="mode" formControlName="mode">
+                <ng-container *ngFor="let item of common_config.WIFI_MODE">
+                    <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
+                </ng-container>
+            </nz-select>
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
         <nz-form-label [nzSpan]="7" nzFor="channel">Channel</nz-form-label>
         <nz-form-control [nzSpan]="12">
             <nz-select id="channel" formControlName="channel">
-                <ng-container *ngFor="let chanel of chanels">
-                    <nz-option [nzValue]="chanel" [nzLabel]="chanel"></nz-option>
+                <ng-container *ngFor="let item of common_config.CHANNEL">
+                    <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
                 </ng-container>
             </nz-select>
         </nz-form-control>

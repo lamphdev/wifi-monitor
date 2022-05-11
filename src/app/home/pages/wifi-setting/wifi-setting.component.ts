@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { WifiSettingService } from '../../services/wifi-setting.service';
 
 @Component({
   selector: 'app-wifi-setting',
@@ -6,6 +7,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   styleUrls: ['./wifi-setting.component.scss'],
 })
 export class WifiSettingComponent implements OnInit {
+
   @Output() onClose: EventEmitter<any> = new EventEmitter();
 
   tabs = [
@@ -23,11 +25,16 @@ export class WifiSettingComponent implements OnInit {
     },
   ];
 
-  constructor() { }
+  common_config = {};
+
+  constructor(private wifiSetting: WifiSettingService) { }
 
   ngOnInit(): void {
     this.onClose.subscribe(evt => {
       this.close(evt);
+    })
+    this.wifiSetting.getWifiSettingConfig().subscribe(res => {
+      this.common_config = res;
     })
   }
 
