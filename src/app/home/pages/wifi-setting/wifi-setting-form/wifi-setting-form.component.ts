@@ -13,7 +13,8 @@ export class WifiSettingFormComponent implements OnInit {
   validateForm!: FormGroup;
 
   @Input() type: '5ghz' | '2_4ghz';
-
+  @Input("common_config") common_config: any = {}
+  
   chanels = [15, 56];
 
   constructor(
@@ -36,7 +37,7 @@ export class WifiSettingFormComponent implements OnInit {
         let data = res.objects[0].param;
         this.validateForm.patchValue({
           mode: data.mode,
-          channel: data.channel,
+          channel: String(data.channel),
           band_width: data.band_width,
           power: data.power,
         });
@@ -61,7 +62,7 @@ export class WifiSettingFormComponent implements OnInit {
         }
       ]
     }
-    this.wifiSettingService.settingGeneral(request)
+    this.wifiSettingService.settingWifi(request)
       .subscribe(res => {
         this.modal.info({
           nzContent: 'SUCCESS',

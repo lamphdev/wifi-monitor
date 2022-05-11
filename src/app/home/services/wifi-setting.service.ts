@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, delay } from 'rxjs';
+import { BehaviorSubject, Observable, delay, catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -63,8 +63,8 @@ export class WifiSettingService {
           "param": {
             "ssid_index": 1,
             "ssid": "VIETTEL_ABC123",
-            "security_mode": "WPA / WPA2",
-            "encrypt_mode": "TKIP / AES",
+            "security_mode": "WPA/WPA2",
+            "encrypt_mode": "TKIP/AES",
             "preshared_key": "123456a@"
           }
         }
@@ -77,11 +77,32 @@ export class WifiSettingService {
   settingGeneral(settingRequest: any): Observable<any> {
     return new BehaviorSubject({}).pipe(delay(500));
   }
-  
+
   settingWifi(settingRequest: any): Observable<any> {
     return new BehaviorSubject({}).pipe(delay(500));
   }
 
+  getWifiSettingConfig() {
+    let url = 'http://localhost:8080/wifi-setting/common-config';
+    return this.http.get(url).pipe(catchError(err => {
+      return of({
+        "ENCRYPT_MODE": [
+          "TKIP/AES"
+        ],
+        "WIFI_MODE": [
+          "b/g/n",
+          "a/n/ac"
+        ],
+        "CHANNEL": [
+          "15",
+          "56"
+        ],
+        "SECURITY_MODE": [
+          "WPA/WPA2"
+        ]
+      });
+    }));
+  }
 }
 
 var requestGeneral = {

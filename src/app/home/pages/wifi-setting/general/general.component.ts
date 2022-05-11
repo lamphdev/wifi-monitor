@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Output } from '@angular/core';
+import { Component, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { WifiSettingService } from 'src/app/home/services/wifi-setting.service';
@@ -13,6 +13,8 @@ export class GeneralComponent implements OnInit {
   validateForm!: FormGroup;
   passwordVisible = false;
   chanels = [1, 2, 3, 4, 5];
+
+  @Input("common_config") common_config: any = {}
 
   constructor(
     private fb: FormBuilder,
