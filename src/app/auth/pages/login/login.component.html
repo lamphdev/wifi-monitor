@@ -1,27 +1,32 @@
-<div>
-  <h1 nz-typography class="text-center">Login</h1>
-</div>
+<div class="w-full h-screen flex justify-center items-center bg-gradient-to-r from-cyan-500 to-blue-500">
 
-<form method="post" nz-form [formGroup]="formLogin" (ngSubmit)="handleLogin()">
-    <nz-form-item>
-      <nz-form-label [nzSpan]="6" nzFor="email">E-mail</nz-form-label>
-      <nz-form-control [nzSpan]="14">
-        <input nz-input formControlName="email" name="email" type="email" id="email">
-      </nz-form-control>
-    </nz-form-item >
+  <div class="w-full md:w-1/2 rounded p-3 pt-12 bg-white relative">
 
-    <nz-form-item>
-        <nz-form-label [nzSpan]="6" nzFor="password">Password</nz-form-label>
+    <div class="login-title absolute flex items-center px-10 py-2 top-0 shadow rounded bg-white border border-primary">
+      <h1 class="text-primary leading-1 text-3xl">Login</h1>
+    </div>
+
+    <form method="post" nz-form [formGroup]="formLogin" (ngSubmit)="handleLogin()" autocomplete="off">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="email">E-mail</nz-form-label>
         <nz-form-control [nzSpan]="14">
-          <input nz-input formControlName="password" name="password" type="password" id="password">
+          <input nz-input formControlName="email" name="email" type="email" id="email">
         </nz-form-control>
       </nz-form-item >
+  
+      <nz-form-item>
+          <nz-form-label [nzSpan]="6" nzFor="password">Password</nz-form-label>
+          <nz-form-control [nzSpan]="14">
+            <input nz-input formControlName="password" name="password" type="password" id="password">
+          </nz-form-control>
+        </nz-form-item >
+  
+      <nz-form-item>
+          <nz-form-control [nzSpan]="14" nzOffset="6">
+              <button nz-button nzType="primary">Login</button>
+          </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
 
-    <nz-form-item>
-        <nz-form-control [nzSpan]="14" nzOffset="6">
-            <button nz-button>Login</button>
-        </nz-form-control>
-    </nz-form-item>
-
-    
-  </form>
+</div>
