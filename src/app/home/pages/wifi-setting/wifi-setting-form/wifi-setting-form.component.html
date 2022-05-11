@@ -1,18 +1,18 @@
 <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" autocomplete="off">
     <nz-form-item>
-        <nz-form-label [nzSpan]="5" nzFor="enable">Enable</nz-form-label>
+        <nz-form-label [nzSpan]="7" nzFor="enable">Enable</nz-form-label>
         <nz-form-control [nzSpan]="12">
             <nz-switch id="enable" formControlName="enable"></nz-switch>
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label [nzSpan]="5" nzFor="mode">Mode</nz-form-label>
+        <nz-form-label [nzSpan]="7" nzFor="mode">Mode</nz-form-label>
         <nz-form-control [nzSpan]="12">
             <input id="mode" type="text" nz-input formControlName="mode" />
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label [nzSpan]="5" nzFor="channel">Channel</nz-form-label>
+        <nz-form-label [nzSpan]="7" nzFor="channel">Channel</nz-form-label>
         <nz-form-control [nzSpan]="12">
             <nz-select id="channel" formControlName="channel">
                 <ng-container *ngFor="let chanel of chanels">
@@ -22,13 +22,13 @@
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label [nzSpan]="5" nzFor="band_wide">Band wide</nz-form-label>
+        <nz-form-label [nzSpan]="7" nzFor="band_width">Band wide</nz-form-label>
         <nz-form-control [nzSpan]="12">
-            <input id="band_wide" type="text" nz-input formControlName="band_wide" />
+            <input id="band_width" type="text" nz-input formControlName="band_width" />
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label [nzSpan]="5" nzFor="power">Power</nz-form-label>
+        <nz-form-label [nzSpan]="7" nzFor="power">Power</nz-form-label>
         <nz-form-control [nzSpan]="12">
             <input id="power" type="text" nz-input formControlName="power" />
         </nz-form-control>

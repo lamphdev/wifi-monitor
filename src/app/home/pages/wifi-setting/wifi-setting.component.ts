@@ -23,7 +23,16 @@ export class WifiSettingComponent implements OnInit {
     },
   ];
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.onClose.subscribe(evt => {
+      this.close(evt);
+    })
+  }
+
+  close(evt: any) {
+
+  }
+
 }
