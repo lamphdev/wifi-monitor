@@ -15,11 +15,11 @@ import { IMqttServiceOptions, MqttModule } from 'ngx-mqtt';
 
 registerLocaleData(en);
 
-export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
-  hostname: 'broker.mqttdashboard.com',
-  port: 8000,
-  path: '/mqtt'
-};
+// export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
+//   hostname: 'broker.mqttdashboard.com',
+//   port: 8000,
+//   path: '/mqtt'
+// };
 import { environment } from 'src/environments/environment';
 
 registerLocaleData(en);
@@ -43,7 +43,7 @@ const mqttConfig: IMqttServiceOptions = {
     MqttModule.forRoot(mqttConfig),
     BrowserAnimationsModule,
     LayoutModule,
-    MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
+    // MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
