@@ -11,8 +11,15 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from './layout/layout.module';
+import { IMqttServiceOptions, MqttModule } from 'ngx-mqtt';
 
 registerLocaleData(en);
+
+export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
+  hostname: 'broker.mqttdashboard.com',
+  port: 8000,
+  path: '/mqtt'
+};
 
 @NgModule({
   declarations: [
@@ -24,7 +31,8 @@ registerLocaleData(en);
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    LayoutModule
+    LayoutModule,
+    MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
