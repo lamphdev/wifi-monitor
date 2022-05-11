@@ -3,7 +3,17 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  mqttConfig: {
+    hostname: 'vhtont.sytes.net',
+    port: 1883,
+    protocol: 'ws',
+    path: ''
+  },
+  mqttTopic: {
+    GET_AP: 'vht/mesh/demo',
+    GET_DEVICE: 'vht/mesh/demo'
+  }
 };
 
 /*

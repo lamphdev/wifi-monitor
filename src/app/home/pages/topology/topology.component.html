@@ -30,7 +30,14 @@
         </div> -->
     </div>
 
-    <app-topology-index *ngIf="tab === 'index'"></app-topology-index>
-    <app-topology-device *ngIf="tab === 'devices'"></app-topology-device>
+    <app-topology-index 
+        *ngIf="tab === 'index'"
+        [path]="topo">
+    </app-topology-index>
+
+    <app-topology-device 
+        *ngIf="tab === 'devices'"
+        [path]="topo">
+    </app-topology-device>
 
 </nz-card>

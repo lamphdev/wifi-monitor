@@ -5,12 +5,13 @@
         <button nz-button nzType="primary" class="mx-3">ROOT</button>
     </div>
 
-    <app-subscriber-filter></app-subscriber-filter>
+    <!-- <app-subscriber-filter></app-subscriber-filter> -->
     
     <div class="flex justify-between">
         <div class="w-full md:w-1/2">
             <nz-input-group [nzSuffix]="suffixSearchTemplate">
                 <input type="text" nz-input
+                [formControl]="searchControl"
                 placeholder="Enter a subscriber name, broadband account, LOID, gateway alias, gateway SN, or gateway MAC address">
             </nz-input-group>
             <ng-template #suffixSearchTemplate>     
@@ -20,8 +21,7 @@
         
         <div>
             <button nz-button>Import</button>
-            <button nz-button class="mx-2">Export</button>
-            <button nz-button>Export Record</button>
+            <button nz-button class="ml-2">Export</button>
         </div>
     </div>
 
