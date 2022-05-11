@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { finalize, take } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
+import { finalize, map, Observable, take } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { DeviceService } from '../../services/device.service';
+import { MqttEventService } from '../../services/mqtt-event.service';
 
 @Component({
   selector: 'app-topology-device',
@@ -9,25 +11,24 @@ import { DeviceService } from '../../services/device.service';
 })
 export class TopologyDeviceComponent implements OnInit {
 
+  @Input() path = '';
   groupBy = 'none';
-  devices: any[] = [];
+  devices$: Observable<any>;
   loading = false;
 
-  constructor(private deviceService: DeviceService) { }
+  constructor(private deviceService: DeviceService, private mqttEvent: MqttEventService) { }
 
   ngOnInit(): void {
-    this.getDevices();
+    this.mqttEvent.newSession();
+    this.subscribeFromMqtt();
   }
 
-  getDevices(): void {
-    this.loading = true;
-    this.deviceService.getDevices().pipe(
-      take(1),
-      finalize(() => this.loading = false)
-    ).subscribe(res => {
-      this.devices = res;
-    });
-  };
-
+  subscribeFromMqtt(): void {
+    const topic = `${environment.mqttTopic.GET_DEVICE}/${this.path}/${this.mqttEvent.currentSession}`;
+    this.devices$ = this.mqttEvent.subscribe(topic).pipe(
+      map(data => JSON.parse(data.payload.toString()))
+    );
+    this.mqttEvent.fakeDataDevice(topic);
+  }
 
 }

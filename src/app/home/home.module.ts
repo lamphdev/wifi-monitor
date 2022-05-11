@@ -22,6 +22,7 @@ import { DeviceTableComponent } from './components/device-table/device-table.com
 import { TopologyIndexComponent } from './components/topology-index/topology-index.component';
 import { TopologyDeviceComponent } from './components/topology-device/topology-device.component';
 import { LayoutService } from '../layout/layout.service';
+import { MqttModule } from 'ngx-mqtt';
 
 
 @NgModule({

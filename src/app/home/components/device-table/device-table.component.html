@@ -33,12 +33,12 @@
                 <td>{{row.param.ip_address || '--'}}</td>
                 <td>{{row.param.access_port || '--'}}</td>
                 <td>
-                    <div class="flex flex-nowrap items-center" *ngIf="row.rssi">
+                    <div class="flex flex-nowrap items-center" *ngIf="row.param.signal_strength">
                         <i nz-icon nzType="wifi" [ngClass]="classIcon(row)" class="mr-1" nzTheme="outline"></i>
                         <span [ngClass]="classIcon(row)">{{row.param.wifi_standard_in_use}}&nbsp;</span>
-                        <span>{{row.param.rssi}}&nbsp;dBm</span>
+                        <span>{{row.param.signal_strength}}&nbsp;dBm</span>
                     </div>
-                    <span *ngIf="!row.rssi">--</span>
+                    <span *ngIf="!row.param.signal_strength">--</span>
                 </td>
                 <td>
                     {{row.used_antenna ? row.wifi_standard_in_use + ' ' + row.used_antenna : '--'}}
@@ -84,12 +84,12 @@
             <td>{{row.param.ip_address || '--'}}</td>
             <td>{{row.param.access_port || '--'}}</td>
             <td>
-                <div class="flex flex-nowrap items-center" *ngIf="row.rssi">
+                <div class="flex flex-nowrap items-center" *ngIf="row.param.signal_strength">
                     <i nz-icon nzType="wifi" [ngClass]="classIcon(row)" class="mr-1" nzTheme="outline"></i>
                     <span [ngClass]="classIcon(row)">{{row.param.wifi_standard_in_use}}&nbsp;</span>
-                    <span>{{row.param.rssi}}&nbsp;dBm</span>
+                    <span>{{row.param.signal_strength}}&nbsp;dBm</span>
                 </div>
-                <span *ngIf="!row.rssi">--</span>
+                <span *ngIf="!row.param.signal_strength">--</span>
             </td>
             <td>
                 {{row.used_antenna ? row.wifi_standard_in_use + ' ' + row.used_antenna : '--'}}

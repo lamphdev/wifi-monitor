@@ -1,3 +1,36 @@
 <div class="mt-3">
-    <h1>Index</h1>
+    <nz-table [nzData]="['']" nzSize="small" nzShowPagination="false">
+        <thead>
+            <tr>
+                <th>MAC Address</th>
+                <th>Product Class</th>
+                <th>Serial Number</th>
+                <th>Software Version</th>
+                <th>CPU Usage</th>
+                <th>Memory Usage</th>
+                <th>IP Lan</th>
+                <th>IP Wan</th>
+                <th>Signal Strength</th>
+                <th>Quality</th>
+                <th>Number of Device Connected</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="apData$|async as apData">
+            <tr *ngFor="let device of apData.objects">
+                <td>
+                    <a nz-typography>{{device.param.mac_address}}</a>
+                </td>
+                <td>{{device.param.product_class}}</td>
+                <td>{{device.param.serial_number}}</td>
+                <td>{{device.param.software_version}}</td>
+                <td>{{device.param.cpu_usage || '--'}}</td>
+                <td>{{device.param.memory_usage || '--'}}</td>
+                <td>{{device.param.ip_lan || '--'}}</td>
+                <td>{{device.param.ip_wan || '--'}}</td>
+                <td>{{device.param.backhaul_signal_strength}}</td>
+                <td>{{device.param.quality}}</td>
+                <td>{{device.instance}}</td>
+            </tr>
+        </tbody>
+    </nz-table>
 </div>

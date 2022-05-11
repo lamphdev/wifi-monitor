@@ -20,6 +20,16 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   port: 8000,
   path: '/mqtt'
 };
+import { environment } from 'src/environments/environment';
+
+registerLocaleData(en);
+
+const mqttConfig: IMqttServiceOptions = {
+  hostname: environment.mqttConfig.hostname,
+  protocol: environment.mqttConfig.protocol as ('ws'|'wss'),
+  port: environment.mqttConfig.port,
+  path: environment.mqttConfig.path
+}
 
 @NgModule({
   declarations: [
@@ -30,6 +40,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    MqttModule.forRoot(mqttConfig),
     BrowserAnimationsModule,
     LayoutModule,
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
