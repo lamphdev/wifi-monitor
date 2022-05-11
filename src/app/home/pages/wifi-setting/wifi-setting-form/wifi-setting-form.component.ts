@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { WifiSettingService } from 'src/app/home/services/wifi-setting.service';
 import { WifiSettingComponent } from '../wifi-setting.component';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-wifi-setting-form',
@@ -14,7 +15,7 @@ export class WifiSettingFormComponent implements OnInit {
 
   @Input() type: '5ghz' | '2_4ghz';
   @Input("common_config") common_config: any = {}
-  
+
   chanels = [15, 56];
 
   constructor(
@@ -32,7 +33,7 @@ export class WifiSettingFormComponent implements OnInit {
       band_width: [],
       power: [],
     });
-    this.wifiSettingService.getWifiSetting(this.type, {})
+    this.wifiSettingService.getWifiSetting(this.type, uuidv4())
       .subscribe(res => {
         let data = res.objects[0].param;
         this.validateForm.patchValue({
