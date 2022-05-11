@@ -1,5 +1,7 @@
 import { Component, Inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { WifiSettingService } from 'src/app/home/services/wifi-setting.service';
 import { WifiSettingComponent } from '../wifi-setting.component';
 
 @Component({
@@ -14,30 +16,55 @@ export class GeneralComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(WifiSettingComponent) private parent: WifiSettingComponent
-  ) {}
+    @Inject(WifiSettingComponent) private parent: WifiSettingComponent,
+    private wifiSettingService: WifiSettingService,
+    private modal: NzModalService,
+  ) { }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       enable_ssid: [true],
-      ssid: ['XXXXXXXXX'],
-      auth_mode: ['WPA'],
-      sercurity_mode: ['AES'],
-      shared_key: ['XXXXXXXXX'],
+      ssid: [''],
+      encrypt_mode: [''],
+      security_mode: [''],
+      preshared_key: [''],
     });
+    this.wifiSettingService.getGeneralSetting({}).subscribe(response => {
+      let data = response.objects[0].param;
+      this.validateForm.patchValue({
+        ssid: data.ssid,
+        security_mode: data.security_mode,
+        preshared_key: data.preshared_key,
+        encrypt_mode: data.encrypt_mode,
+      });
+    })
   }
 
   submitForm(): void {
-    if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
-    } else {
-      Object.values(this.validateForm.controls).forEach((control) => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
+
+    let request = {
+      "from": "02c29d2a-dbfd-2d91-99c9-306d537e9856",
+      "to": "VTGR123456",
+      "id": 3,
+      "type": "set",
+      "objects": [
+        {
+          "name": "wifi",
+          "instance": 1,
+          "param": {
+            "ssid_index": 1,
+            ...this.validateForm.value
+          }
         }
-      });
+      ]
     }
+    this.wifiSettingService.settingGeneral(request)
+      .subscribe(res => {
+        this.modal.info({
+          nzContent: 'SUCCESS',
+          nzOnOk: () => { this.modal.closeAll() }
+        })
+      });
   }
 
   doClose() {

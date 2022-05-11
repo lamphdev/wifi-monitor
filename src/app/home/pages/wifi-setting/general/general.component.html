@@ -1,42 +1,39 @@
 <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" autocomplete="off">
     <nz-form-item>
-        <nz-form-label [nzSpan]="5" nzFor="enable_ssid">Enable SSID </nz-form-label>
+        <nz-form-label [nzSpan]="7" nzFor="enable_ssid">Enable SSID </nz-form-label>
         <nz-form-control [nzSpan]="12">
             <nz-switch id="enable_ssid" formControlName="enable_ssid"></nz-switch>
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label [nzSpan]="5" nzFor="ssid">SSID</nz-form-label>
+        <nz-form-label [nzSpan]="7" nzFor="ssid">SSID</nz-form-label>
         <nz-form-control [nzSpan]="12">
             <input id="ssid" type="text" nz-input formControlName="ssid" />
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label [nzSpan]="5" nzFor="auth_mode">Authentication mode</nz-form-label>
+        <nz-form-label [nzSpan]="7" nzFor="encrypt_mode">Authentication mode</nz-form-label>
         <nz-form-control [nzSpan]="12">
-            <nz-select id="auth_mode" formControlName="auth_mode">
-                <nz-option nzValue="WPA" nzLabel="WPA"></nz-option>
-                <nz-option nzValue="WPA2" nzLabel="WPA2"></nz-option>
+            <nz-select id="encrypt_mode" formControlName="encrypt_mode">
+                <nz-option nzValue="TKIP / AES" nzLabel="TKIP / AES"></nz-option>
                 <nz-option nzValue="WEP" nzLabel="WEP"></nz-option>
             </nz-select>
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label [nzSpan]="5" nzFor="sercurity_mode">Security mode</nz-form-label>
+        <nz-form-label [nzSpan]="7" nzFor="security_mode">Security mode</nz-form-label>
         <nz-form-control [nzSpan]="12">
-            <nz-select id="sercurity_mode" formControlName="sercurity_mode">
-                <nz-option nzValue="AES" nzLabel="AES"></nz-option>
-                <nz-option nzValue="TKIP" nzLabel="TKIP"></nz-option>
-                <nz-option nzValue="PSK" nzLabel="PSK"></nz-option>
+            <nz-select id="security_mode" formControlName="security_mode">
+                <nz-option nzValue="WPA / WPA2" nzLabel="WPA / WPA2"></nz-option>
             </nz-select>
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label [nzSpan]="5" nzFor="shared_key">WPA shared key </nz-form-label>
+        <nz-form-label [nzSpan]="7" nzFor="preshared_key">WPA shared key </nz-form-label>
         <nz-form-control [nzSpan]="12">
             <nz-input-group [nzSuffix]="suffixTemplate">
-                <input [type]="passwordVisible ? 'text' : 'password'" nz-input id="shared_key"
-                    formControlName="shared_key" />
+                <input [type]="passwordVisible ? 'text' : 'password'" nz-input id="preshared_key"
+                    formControlName="preshared_key" />
             </nz-input-group>
             <ng-template #suffixTemplate>
                 <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" id="show-pwd-icon"

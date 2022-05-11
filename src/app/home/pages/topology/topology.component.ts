@@ -18,7 +18,7 @@ export class TopologyComponent implements OnInit {
   constructor(private modal: NzModalService) { }
 
   ngOnInit(): void {
-    
+
   }
 
   changeTab(newTab: TabType): void {
@@ -28,7 +28,10 @@ export class TopologyComponent implements OnInit {
   openWifiConfig(): void {
     this.modal.create({
       nzContent: WifiSettingComponent,
-      nzFooter: null
+      nzFooter: null,
+      nzComponentParams: {
+        close: evt => { this.modal.closeAll() }
+      }
     })
   }
 
