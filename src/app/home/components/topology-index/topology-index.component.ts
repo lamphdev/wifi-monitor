@@ -3,6 +3,28 @@ import { map, Observable, take, takeUntil } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { MqttEventService } from '../../services/mqtt-event.service';
 
+const fakeChartData = [
+  {
+    text: 'Node 1',
+    children: [
+      {
+        text: 'Node 2',
+        children: [
+          {
+            text: 'Node 3'
+          },
+          {
+            text: 'Node 4'
+          },
+          {
+            text: 'Node 5'
+          }
+        ]
+      }
+    ]
+  }
+];
+
 @Component({
   selector: 'app-topology-index',
   templateUrl: './topology-index.component.html',
@@ -12,6 +34,7 @@ export class TopologyIndexComponent implements OnInit {
 
   @Input() path = ''
   apData$: Observable<any>;
+  chartData = fakeChartData;
   GET_AP_TOPIC = environment.mqttTopic.GET_AP;
 
   constructor(private mqttClient: MqttEventService) { }

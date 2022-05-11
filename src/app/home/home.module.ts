@@ -23,6 +23,7 @@ import { TopologyIndexComponent } from './components/topology-index/topology-ind
 import { TopologyDeviceComponent } from './components/topology-device/topology-device.component';
 import { LayoutService } from '../layout/layout.service';
 import { MqttModule } from 'ngx-mqtt';
+import { ApChartDirective } from './directive/ap-chart.directive';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { MqttModule } from 'ngx-mqtt';
     DeviceTableComponent,
     TopologyIndexComponent,
     TopologyDeviceComponent,
+    ApChartDirective
   ],
   imports: [
     CommonModule,
