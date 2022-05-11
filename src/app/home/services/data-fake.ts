@@ -1439,3 +1439,43 @@ export const devices = [{
   "energy_saving": null,
   "last_time": "12/28/2021"
 }];
+
+
+export const get_host_response = {
+  from: 'VTGR123456',
+  to: '02c29d2a-dbfd-2d91-99c9-306d537e9856',
+  id: 6,
+  type: 'get_response',
+  objects: [
+    {
+      name: 'host',
+      instance: 1,
+      param: {
+        name: 'TUANs iphone',
+        mac_address: 'AA:BB:CC:00:12:23',
+        ip_address: '192.168.1.10',
+        interface: 'wifi5',
+        standard: 'ac',
+        signal_strength: -54,
+        quality: 'good',
+        error_rate_sent: 0,
+        error_rate_received: 1
+      }
+    },
+    {
+      name: 'host',
+      instance: 2,
+      param: {
+        name: 'DungsPC',
+        mac_address: 'AC:BB:CC:00:15:51',
+        ip_address: '192.168.1.12',
+        interface: 'wifi5',
+        standard: 'ac',
+        signal_strength: -24,
+        quality: 'good',
+        error_rate_sent: 0,
+        error_rate_received: 2
+      }
+    }
+  ]
+}
