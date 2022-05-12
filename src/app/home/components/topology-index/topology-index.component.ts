@@ -1,24 +1,37 @@
 import { Component, Input, OnDestroy, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, map, Observable, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
+import { ChartNode } from 'src/app/shared/model/chart-node';
 import { environment } from 'src/environments/environment';
 import { MqttEventService } from '../../services/mqtt-event.service';
 
-const fakeChartData = [
+const fakeChartData: ChartNode[] = [
   {
-    text: 'Node 1',
+    text: 'Internet',
     children: [
       {
-        text: 'Node 2',
+        text: 'Moderm 1',
+        speedUp: 23,
+        speedDown: 44,
+        type: 'ethernet',
         children: [
           {
-            text: 'Node 3'
+            text: 'Pc 01',
+            type: 'ethernet',
+            speedDown: 30.51,
+            speedUp: 65.63
           },
           {
-            text: 'Node 4'
+            text: 'Iphone',
+            type: 'wifi',
+            speedDown: 44.56,
+            speedUp: 75.23
           },
           {
-            text: 'Node 5'
+            text: 'Tablet',
+            type: 'wifi',
+            speedDown: 42.02,
+            speedUp: 22.13
           }
         ]
       }

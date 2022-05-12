@@ -1,11 +1,12 @@
 import { Directive, ElementRef, Input, NgZone, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChartNode } from 'src/app/shared/model/chart-node';
 
 @Directive({
   selector: '[appApChart]'
 })
 export class ApChartDirective implements OnInit, OnChanges {
 
-  @Input() data: any[] = [];
+  @Input() data: ChartNode[] = [];
 
   deep = 0;
   mapLevel: {[key: number]: number} = {};
@@ -32,7 +33,7 @@ export class ApChartDirective implements OnInit, OnChanges {
     this.data.forEach(data => this.traveNode(data));
   }
 
-  traveNode(data: any, deep = 1): void {
+  traveNode(data: ChartNode, deep = 1): void {
     if (this.mapLevel[deep]) {
       this.mapLevel = {
         ...this.mapLevel,
@@ -80,7 +81,7 @@ export class ApChartDirective implements OnInit, OnChanges {
   }
 
 
-  drawNode(width: number, height: number, level: number, data: any, ctx: CanvasRenderingContext2D, joinx: number, joiny: number) {
+  drawNode(width: number, height: number, level: number, data: ChartNode, ctx: CanvasRenderingContext2D, joinx: number, joiny: number) {
 
     const r = 30;
     const padding = 20;
@@ -95,6 +96,7 @@ export class ApChartDirective implements OnInit, OnChanges {
     const y = stepY * this.memoMap[level];
 
     ctx.beginPath();
+    ctx.setLineDash([]);
     ctx.strokeStyle = '#0369a1';
     ctx.arc(x, y, r, 0, 2 * Math.PI);
     ctx.stroke();
@@ -108,9 +110,11 @@ export class ApChartDirective implements OnInit, OnChanges {
       ctx.drawImage(img, x - r + padding / 2, y - r + padding / 2, r * 2 - padding, r * 2 - padding);
     }
     img.src = 'assets/icons/broadcast.svg';
+    ctx.stroke();
 
     // draw text
     ctx.beginPath();
+    ctx.setLineDash([]);
     ctx.textAlign = 'center';
     ctx.strokeText(data.text, x , y + r + 10);
     ctx.stroke(); 
@@ -124,6 +128,7 @@ export class ApChartDirective implements OnInit, OnChanges {
       this.drawConnect(fromX, fromY, toX, toY, ctx, data);
     }
 
+    // draw children
     const children = data.children as any[];
     if (children) {
       children.forEach(child => {
@@ -133,7 +138,7 @@ export class ApChartDirective implements OnInit, OnChanges {
   }
 
 
-  drawConnect(fromX: number, fromY: number, toX: number, toY: number, ctx: CanvasRenderingContext2D, data: any): void {
+  drawConnect(fromX: number, fromY: number, toX: number, toY: number, ctx: CanvasRenderingContext2D, data: ChartNode): void {
     const headlen = 10;
     const breakLength = 50;
 
@@ -142,13 +147,17 @@ export class ApChartDirective implements OnInit, OnChanges {
       const dy = toY - fromY;
       const angle = Math.atan2(dy, dx);
 
-      ctx?.beginPath();
       // draw connection
+      ctx.beginPath();
+      if (data.type === 'wifi') {
+        ctx.setLineDash([5, 3]);
+      }
       ctx?.moveTo(fromX, fromY);
       ctx?.lineTo(toX, toY);
       ctx?.lineTo(toX - headlen * Math.cos(angle - Math.PI / 6), toY - headlen * Math.sin(angle - Math.PI / 6));
       ctx?.moveTo(toX, toY);
       ctx?.lineTo(toX - headlen * Math.cos(angle + Math.PI / 6), toY - headlen * Math.sin(angle + Math.PI / 6));
+      ctx.stroke();
 
       // draw connect info
       const x = fromX + (toX - fromX) / 2;
@@ -159,29 +168,35 @@ export class ApChartDirective implements OnInit, OnChanges {
       const angle = Math.atan2(dy, dx);
 
       ctx.beginPath();
+      if (data.type === 'wifi') {
+        ctx.setLineDash([5, 3]);
+      }
       ctx.moveTo(fromX, fromY);
       ctx.lineTo(fromX + breakLength, fromY);
       ctx.lineTo(fromX + breakLength, toY);
       ctx.lineTo(toX, toY);
-
-      // draw connect info 
-      const x = fromX + breakLength + (toX - (fromX + breakLength)) / 2;
-      this.drawConnectInfo(x, toY, ctx, data);
+      ctx.stroke();
+      // ctx.setLineDash([]);
 
       ctx?.lineTo(toX - headlen * Math.cos(angle - Math.PI / 6), toY - headlen * Math.sin(angle - Math.PI / 6));
       ctx?.moveTo(toX, toY);
       ctx?.lineTo(toX - headlen * Math.cos(angle + Math.PI / 6), toY - headlen * Math.sin(angle + Math.PI / 6));
-      ctx?.stroke();
       ctx.stroke();
+
+      // draw connect info 
+      const x = fromX + breakLength + (toX - (fromX + breakLength)) / 2;
+      this.drawConnectInfo(x, toY, ctx, data);
     }
   }
 
-  drawConnectInfo(x: number, y: number, ctx: CanvasRenderingContext2D, data: any): void {
+  drawConnectInfo(x: number, y: number, ctx: CanvasRenderingContext2D, data: ChartNode): void {
+    ctx.beginPath();
+    ctx.setLineDash([]);
     ctx.font = '13px Sans';
     ctx.strokeStyle = '#16a34a';
-    ctx.strokeText('▲: 8.343 kbit/s', x, y - 5);
+    ctx.strokeText(`▲: ${data.speedUp || '--'} kbit/s`, x, y - 5);
     ctx.strokeStyle = '#0284c7';
-    ctx.strokeText('▼: 7.555 kbit/s', x, y + 12 +5 );
+    ctx.strokeText(`▼: ${data.speedDown || '--'} kbit/s`, x, y + 12 +5 );
     ctx?.stroke();
   }
 
