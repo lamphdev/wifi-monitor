@@ -1,7 +1,8 @@
 <div class="flex justify-between items-center">
     <div class="w-full md:w-1/3">
         <nz-input-group [nzSuffix]="searchIcon">
-            <input type="text" nz-input placeholder="Enter a manufacture, product class, serial number, mac address">
+            <input type="text" nz-input [(ngModel)]="keySearch"
+            placeholder="Enter a manufacture, product class, serial number, mac address">
         </nz-input-group>
         <ng-template #searchIcon>
             <i nz-icon nzType="search" nzTheme="outline"></i>
@@ -30,7 +31,7 @@
         </thead>
     
         <tbody *ngIf="groupBy === 'ap'">
-            <ng-container *ngFor="let row of flattern">
+            <ng-container *ngFor="let row of flattern |deviceFilter: keySearch">
                 <tr *ngIf="row.level === 0 || (expandSet.has(row.parent))">
                     <td [nzIndentSize]="row.level * 20" 
                         [nzShowExpand]="row.children" 
@@ -85,7 +86,7 @@
     
     
         <tbody *ngIf="groupBy === 'none'">
-            <tr *ngFor="let row of devices">
+            <tr *ngFor="let row of devices | deviceFilter: keySearch">
                 <td>
                     {{row.param.name}}
                 </td>

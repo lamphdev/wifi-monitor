@@ -12,6 +12,7 @@ export class DeviceTableComponent implements OnInit , OnChanges{
   @Input() groupBy = 'none';
   flattern: any[] = [];
   expandSet = new Set<number>();
+  keySearch = '';
 
   constructor() { }
 

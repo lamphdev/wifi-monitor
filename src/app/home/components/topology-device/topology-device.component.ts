@@ -1,8 +1,21 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { map, Observable, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DeviceService } from '../../services/device.service';
 import { MqttEventService } from '../../services/mqtt-event.service';
+
+@Pipe({name: 'deviceFilter'})
+export class DeviceFilterPipe implements PipeTransform {
+  transform(value: any[], ...args: any[]) {
+    const keySearch = args[0] as string;
+    return value.filter(el => !keySearch ||
+      el.param.name?.toLowerCase().includes(keySearch) ||
+      el.param.model?.toLowerCase().includes(keySearch) ||
+      el.param.mac_address?.toLowerCase().includes(keySearch) ||
+      el.param.ip_address?.toLowerCase().includes(keySearch)
+    )
+  }
+}
 
 @Component({
   selector: 'app-topology-device',
