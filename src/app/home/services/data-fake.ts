@@ -1449,15 +1449,69 @@ export const fake_ap_response = [
     objects: [
       {
         name: "ap",
-        instance: 2,
+        instance: 1,
         param: {
           manufacturer: "Viettel Group",
           product_class: "G241WD",
           serial_number: "VTGR123456",
           software_version: "VT1.6.2123",
           mac_address: "AA:BB:CC:33:22:01",
-          backhaul_link: "wifi5",
+          backhaul_link: "none",
           backhaul_signal_strength: 0 - Math.floor(Math.random() * 100),
+          backhaul_link_rate: 34,
+          role: 1,
+          mac_backhaul_ap: 'none',
+          quality: "good"
+        }
+      },
+      {
+        name: "ap",
+        instance: 2,
+        param: {
+          manufacturer: "Apple",
+          product_class: "IPHONE",
+          serial_number: "APIPSR003",
+          software_version: "13",
+          mac_address: "AD:CG:BB:53:32:17",
+          backhaul_link: "wifi",
+          backhaul_signal_strength: 0 - Math.floor(Math.random() * 100),
+          backhaul_link_rate: 45,
+          role: 2,
+          mac_backhaul_ap: 'AA:BB:CC:33:22:01',
+          quality: "low"
+        }
+      },
+      {
+        name: "ap",
+        instance: 2,
+        param: {
+          manufacturer: "Apple",
+          product_class: "TABLET",
+          serial_number: "APTBSR006",
+          software_version: "14",
+          mac_address: "EF:AG:CE:12:64:22",
+          backhaul_link: "wifi",
+          backhaul_signal_strength: 0 - Math.floor(Math.random() * 100),
+          backhaul_link_rate: 34,
+          role: 2,
+          mac_backhaul_ap: 'AA:BB:CC:33:22:01',
+          quality: "bad"
+        }
+      },
+      {
+        name: "ap",
+        instance: 2,
+        param: {
+          manufacturer: "Mgie",
+          product_class: "PC 023",
+          serial_number: "PCDTDIE05",
+          software_version: "WIN.11",
+          mac_address: "EA:GE:DD:14:33:21",
+          backhaul_link: "ethernet",
+          backhaul_signal_strength: 0 - Math.floor(Math.random() * 100),
+          backhaul_link_rate: 20,
+          role: 2,
+          mac_backhaul_ap: 'AA:BB:CC:33:22:01',
           quality: "good"
         }
       }
