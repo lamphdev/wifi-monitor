@@ -13,6 +13,7 @@
     </div>
     <button nz-button nzType="primary">Export</button>
 </div>
+<p class="text-danger"></p>
 <div class="mt-3 overflow-x-scroll">
     <nz-table [nzData]="['']" 
         nzSize="small" 
@@ -54,15 +55,16 @@
                 <td>{{device.param.backhaul_link || '--'}}</td>
                 <td>
                     <div class="flex flex-nowrap items-center" *ngIf="device.param.backhaul_signal_strength">
-                        <i nz-icon nzType="wifi" [ngClass]="classIcon(device)" class="mr-1" nzTheme="outline"></i>
+                        <span [ngClass]="classIcon(device)">
+                            <i nz-icon nzType="wifi" class="mr-1" nzTheme="outline"></i>
+                        </span>
                         <span [ngClass]="classIcon(device)">{{device.param.backhaul_signal_strength}}&nbsp;</span>
-                        <span>{{device.param.backhaul_signal_strength}}&nbsp;dBm</span>
                     </div>
                     <span *ngIf="!device.param.backhaul_signal_strength">--</span>
                 </td>
                 <td>{{device.param.backhaul_link_rate || '--'}}</td>
                 <td>{{device.param.quality}}</td>
-                <td>{{device.backhaul_link === 'none' ? 'Controller' : 'Agent'}}</td>
+                <td>{{device.param.role === 1 ? 'Controller' : 'Agent'}}</td>
             </tr>
         </tbody>
     </nz-table>
