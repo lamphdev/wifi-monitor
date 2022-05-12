@@ -8,6 +8,7 @@ export class ApChartDirective implements OnInit, OnChanges {
 
   @Input() data: ChartNode[] = [];
 
+  readonly r = 30;
   deep = 0;
   mapLevel: {[key: number]: number} = {};
   memoMap: {[key: number]: number} =  {}
@@ -68,23 +69,36 @@ export class ApChartDirective implements OnInit, OnChanges {
     const wrapper = this.elRef.nativeElement as HTMLElement;
     const wrapperWidth = wrapper.offsetWidth;
     const wrapperHeight = wrapper.offsetHeight;
+
+    const minWith = (this.deep + 1) * 200 + (this.r * 2 * this.deep);
+    const maxByLevel = Object.keys(this.mapLevel).reduce((result, item) => {
+      if (this.mapLevel[Number(item)] >result) {
+        return this.mapLevel[Number(item)];
+      }
+      return result;
+    }, 0);
+    const minHeight = (maxByLevel) * this.r * 2 + (maxByLevel + 1) * 40;
+    const canvasWith = Math.max(wrapperWidth, minWith);
+    const canvasHeight = Math.max(wrapperHeight, minHeight);
+    wrapper.style.height = `${minHeight}px`;
+
     wrapper.innerHTML = '';
     const canvas = document.createElement('canvas');  
     wrapper.appendChild(canvas);
-    canvas.setAttribute('width', `${wrapperWidth}`);
-    canvas.setAttribute('height', `${wrapperHeight}`);
+    canvas.setAttribute('width', `${canvasWith}`);
+    canvas.setAttribute('height', `${canvasHeight}`);
     const ctx = canvas.getContext('2d');
 
     if (ctx) {
       this.data.forEach(item => {
-        this.drawNode(wrapperWidth, wrapperHeight, 1, item, ctx, -1, -1);
+        this.drawNode(canvasWith, canvasHeight, 1, item, ctx, -1, -1);
       })
     }
   }
 
 
   drawNode(width: number, height: number, level: number, data: ChartNode, ctx: CanvasRenderingContext2D, joinx: number, joiny: number) {
-    const r = 30;
+    const r = this.r;
     const padding = 20;
     const stepX = width / (this.deep + 1);
     const stepY = height / (this.mapLevel[level] + 1);
