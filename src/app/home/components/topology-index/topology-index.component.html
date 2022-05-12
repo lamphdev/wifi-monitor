@@ -5,7 +5,7 @@
         <nz-input-group [nzSuffix]="searchIcon">
             <input type="text" nz-input 
             [(ngModel)]="searchString"
-            placeholder="Enter a manufacture, product class, serial number, mac address">
+            placeholder="Enter a Manufacture, Product Class, Serial number">
         </nz-input-group>
         <ng-template #searchIcon>
             <i nz-icon nzType="search" nzTheme="outline"></i>
@@ -27,8 +27,8 @@
                 <th>Serial Number</th>
                 <th>Software Version</th>
                 <th>MAC Address</th>
-                <th>CPU Usage</th>
-                <th>Memory Usage</th>
+                <th>CPU Usage (%)</th>
+                <th>Memory Usage (%)</th>
                 <th>IP Lan</th>
                 <th>IP Wan</th>
                 <th>Backhaul Link</th>
