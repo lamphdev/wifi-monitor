@@ -41,7 +41,6 @@ export class DeviceTableComponent implements OnInit , OnChanges{
     } else {
       this.expandSet.delete(key);
     }
-    console.log(this.expandSet);
   }
 
   classIcon(row: any): any {

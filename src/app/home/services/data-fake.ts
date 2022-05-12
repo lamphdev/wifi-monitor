@@ -1514,7 +1514,7 @@ export const fake_ap_response = [
           mac_backhaul_ap: 'AA:BB:CC:33:22:01',
           quality: "good"
         }
-      }
+      },
     ]
   },
   {
