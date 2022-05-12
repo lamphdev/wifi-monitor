@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, delay, catchError, of, flatMap, mergeMap } from 'rxjs';
+import { defer, Observable } from 'rxjs';
 import { MqttClientService } from './mqtt-client.service';
 
 const WIFI_GENERAL_TOPIC = "vht/mesh/demo/VTGR123456";
@@ -28,13 +28,13 @@ export class WifiSettingService {
       ]
     }
 
-    this.mqttClient.connect(WIFI_GENERAL_TOPIC)
-    return this.mqttClient.publish(WIFI_SETTING_TOPIC, payload)
-      .pipe(mergeMap(_ => {
-        console.log("wifi" + type + " publish " + WIFI_SETTING_TOPIC, payload);
-        console.log("wifi" + type + " subcrible " + WIFI_SETTING_TOPIC + "/" + sessionId);
-        return this.mqttClient.connect(WIFI_SETTING_TOPIC + "/" + sessionId)
-      }))
+    console.log("wifi" + type + " subscribe ", WIFI_GENERAL_TOPIC + "/" + sessionId);
+    return this.mqttClient.connect(WIFI_GENERAL_TOPIC + '/' + sessionId).pipe(
+      doOnSubscribe(() => {
+        console.log("wifi" + type + " publish ", WIFI_GENERAL_TOPIC, payload);
+        this.mqttClient.publish(WIFI_GENERAL_TOPIC, payload).subscribe();
+      })
+    );  
   }
 
   getGeneralSetting(sessionId: string): Observable<any> {
@@ -51,12 +51,14 @@ export class WifiSettingService {
         }
       ]
     }
-    return this.mqttClient.publish(WIFI_GENERAL_TOPIC, payload)
-      .pipe(mergeMap(_ => {
-        console.log("general publish" + WIFI_GENERAL_TOPIC, payload);
-        console.log("general subcrible " + WIFI_GENERAL_TOPIC + "/" + sessionId);
-        return this.mqttClient.connect(WIFI_GENERAL_TOPIC + "/" + sessionId)
-      }))
+    console.log("general subcrible " , WIFI_GENERAL_TOPIC + "/" + sessionId);
+    return this.mqttClient.connect(WIFI_GENERAL_TOPIC + '/' + sessionId).pipe(
+      doOnSubscribe(() => {
+        console.log("general publish", WIFI_GENERAL_TOPIC, payload);
+        this.mqttClient.publish(WIFI_GENERAL_TOPIC, payload).subscribe();
+      })
+    );
+
   }
 
   settingGeneral(formValue: any, sessionId: string): Observable<any> {
@@ -78,12 +80,13 @@ export class WifiSettingService {
       ]
     }
 
-    return this.mqttClient.publish(WIFI_GENERAL_TOPIC, payload)
-      .pipe(mergeMap(_ => {
-        console.log("setting general publish" + WIFI_GENERAL_TOPIC, payload);
-        console.log("setting general subcrible " + WIFI_GENERAL_TOPIC + "/" + sessionId);
-        return this.mqttClient.connect(WIFI_GENERAL_TOPIC + "/" + sessionId)
-      }))
+    console.log("setting general subcrible " , WIFI_GENERAL_TOPIC + "/" + sessionId);
+    return this.mqttClient.connect(WIFI_GENERAL_TOPIC + '/' + sessionId).pipe(
+      doOnSubscribe(() => {
+        console.log("setting general publish", WIFI_GENERAL_TOPIC, payload);
+        this.mqttClient.publish(WIFI_GENERAL_TOPIC, payload).subscribe();
+      })
+    );
   }
 
   settingWifi(type: string, formValue: any, sessionId: string): Observable<any> {
@@ -104,16 +107,25 @@ export class WifiSettingService {
         }
       ]
     }
-    return this.mqttClient.publish(WIFI_GENERAL_TOPIC, payload)
-      .pipe(mergeMap(_ => {
-        console.log("setting wifi publish" + WIFI_GENERAL_TOPIC, payload);
-        console.log("setting wifi subcrible " + WIFI_GENERAL_TOPIC + "/" + sessionId);
-        return this.mqttClient.connect(WIFI_GENERAL_TOPIC + "/" + sessionId)
-      }))
+    console.log("setting wifi subcrible" , WIFI_GENERAL_TOPIC + "/" + sessionId);
+    return this.mqttClient.connect(WIFI_GENERAL_TOPIC + '/' + sessionId).pipe(
+      doOnSubscribe(() => {
+        console.log("setting wifi publish", WIFI_GENERAL_TOPIC, payload);
+        this.mqttClient.publish(WIFI_GENERAL_TOPIC, payload).subscribe();
+      })
+    );  
   }
 
 }
 
+export function doOnSubscribe<T>(onSubscribe: () => void): (source: Observable<T>) =>  Observable<T> {
+  return function inner(source: Observable<T>): Observable<T> {
+      return defer(() => {
+        onSubscribe();
+        return source;
+      });
+  };
+}
 
 let res_2_4ghz: any = {
   "from": "VTGR123456",
@@ -122,6 +134,7 @@ let res_2_4ghz: any = {
   "type": "get_response",
   "objects": [
     {
+      "enable": true,
       "name": "wifi24",
       "instance": 1,
       "param": {
@@ -140,6 +153,7 @@ let res5ghz: any = {
   "type": "get_response",
   "objects": [
     {
+      "enable": true,
       "name": "wifi5",
       "instance": 1,
       "param": {
@@ -162,10 +176,11 @@ var generalResponse = {
       "name": "wifi",
       "instance": 1,
       "param": {
+        "enable": true,
         "ssid_index": 1,
         "ssid": "VIETTEL_ABC123",
-        "security_mode": "WPA/WPA2",
-        "encrypt_mode": "TKIP/AES",
+        "security_mode": "WPA",
+        "encrypt_mode": "AES",
         "preshared_key": "123456a@"
       }
     }
