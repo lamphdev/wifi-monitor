@@ -13,9 +13,8 @@ export class MqttClientService {
     console.log("connect to topic", topic);
     return this._mqttService.observe(topic)
       .pipe(map(val => {
-        console.log(val);
-
         let payload = new TextDecoder().decode(val.payload);
+        console.log(payload);
         try {
           return JSON.parse(payload);
         } catch (error) {

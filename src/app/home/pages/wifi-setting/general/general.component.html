@@ -1,8 +1,8 @@
 <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" autocomplete="off">
     <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="enable_ssid">Enable SSID </nz-form-label>
+        <nz-form-label [nzSpan]="7" nzFor="enable">Enable</nz-form-label>
         <nz-form-control [nzSpan]="12">
-            <nz-switch id="enable_ssid" formControlName="enable_ssid"></nz-switch>
+            <nz-switch id="enable" formControlName="enable"></nz-switch>
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -12,20 +12,20 @@
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="encrypt_mode">Authentication mode</nz-form-label>
+        <nz-form-label [nzSpan]="7" nzFor="security_mode">Security mode</nz-form-label>
         <nz-form-control [nzSpan]="12">
-            <nz-select id="encrypt_mode" formControlName="encrypt_mode">
-                <ng-container *ngFor="let item of common_config.ENCRYPT_MODE">
+            <nz-select id="security_mode" formControlName="security_mode">
+                <ng-container *ngFor="let item of common_config.SECURITY_MODE">
                     <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
                 </ng-container>
             </nz-select>
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="security_mode">Security mode</nz-form-label>
+        <nz-form-label [nzSpan]="7" nzFor="encrypt_mode">Encrypt mode</nz-form-label>
         <nz-form-control [nzSpan]="12">
-            <nz-select id="security_mode" formControlName="security_mode">
-                <ng-container *ngFor="let item of common_config.SECURITY_MODE">
+            <nz-select id="encrypt_mode" formControlName="encrypt_mode">
+                <ng-container *ngFor="let item of common_config.ENCRYPT_MODE">
                     <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
                 </ng-container>
             </nz-select>
