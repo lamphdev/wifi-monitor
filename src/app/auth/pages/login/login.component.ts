@@ -9,6 +9,8 @@ import { AuthService } from '../../auth.service';
 })
 export class LoginComponent implements OnInit {
 
+  typeInput = 'password';
+
   formLogin = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', Validators.required)
@@ -25,6 +27,14 @@ export class LoginComponent implements OnInit {
       this.authService.login(value);
     } else {
       this.formLogin.markAllAsTouched();
+    }
+  }
+
+  toggleType(): void {
+    if (this.typeInput === 'text') {
+      this.typeInput = 'password';
+    } else {
+      this.typeInput = 'text';
     }
   }
 
