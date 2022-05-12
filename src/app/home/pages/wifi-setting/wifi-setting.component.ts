@@ -27,7 +27,8 @@ export class WifiSettingComponent implements OnInit {
 
   common_config = {
     "ENCRYPT_MODE": [
-      "TKIP/AES"
+      "TKIP",
+      "AES",
     ],
     "WIFI_MODE": [
       "b/g/n",
@@ -38,7 +39,9 @@ export class WifiSettingComponent implements OnInit {
       "56"
     ],
     "SECURITY_MODE": [
-      "WPA/WPA2"
+      "WPA",
+      "WPA2",
+      "WPA3",
     ]
   };
 

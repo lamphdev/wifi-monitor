@@ -32,7 +32,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sessionId = uuidv4();
     this.validateForm = this.fb.group({
-      enable_ssid: [true],
+      enable: [false],
       ssid: [''],
       encrypt_mode: [''],
       security_mode: [''],
@@ -45,6 +45,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         security_mode: data.security_mode,
         preshared_key: data.preshared_key,
         encrypt_mode: data.encrypt_mode,
+        enable: data.enable,
       });
     })
     this.subcribles.add(sub);

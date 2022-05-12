@@ -32,7 +32,7 @@ export class WifiSettingFormComponent implements OnInit, OnDestroy {
 
     this.sessionId = uuidv4();
     this.validateForm = this.fb.group({
-      enable: [true],
+      enable: [false],
       mode: [],
       channel: [],
       band_width: [],
@@ -43,6 +43,7 @@ export class WifiSettingFormComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         let data = res.objects[0].param;
         this.validateForm.patchValue({
+          enable: data.enable,
           mode: data.mode,
           channel: String(data.channel),
           band_width: data.band_width,
