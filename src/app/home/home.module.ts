@@ -19,8 +19,8 @@ import { SubscriberFilterComponent } from './components/subscriber-filter/subscr
 import { SubscriberTableComponent } from './components/subscriber-table/subscriber-table.component';
 import { TopologyComponent } from './pages/topology/topology.component';
 import { DeviceTableComponent } from './components/device-table/device-table.component';
-import { TopologyIndexComponent } from './components/topology-index/topology-index.component';
-import { TopologyDeviceComponent } from './components/topology-device/topology-device.component';
+import { ApFilterPipe, TopologyIndexComponent } from './components/topology-index/topology-index.component';
+import { DeviceFilterPipe, TopologyDeviceComponent } from './components/topology-device/topology-device.component';
 import { LayoutService } from '../layout/layout.service';
 import { MqttModule } from 'ngx-mqtt';
 import { ApChartDirective } from './directive/ap-chart.directive';
@@ -38,7 +38,9 @@ import { ApChartDirective } from './directive/ap-chart.directive';
     DeviceTableComponent,
     TopologyIndexComponent,
     TopologyDeviceComponent,
-    ApChartDirective
+    ApChartDirective,
+    ApFilterPipe,
+    DeviceFilterPipe
   ],
   imports: [
     CommonModule,

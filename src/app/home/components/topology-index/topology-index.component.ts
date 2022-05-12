@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, map, Observable, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -26,12 +26,25 @@ const fakeChartData = [
   }
 ];
 
+@Pipe({name: 'apfilter'})
+export class ApFilterPipe implements PipeTransform {
+  transform(value: any[], ...args: any[]) {
+    const keyword = args[0] as string;
+    return value.filter(el => {
+      return el.param.manufacturer?.toLowerCase().includes(keyword) ||
+        el.param.product_class?.toLowerCase().includes(keyword) ||
+        el.param.serial_number?.toLowerCase().includes(keyword) ||
+        el.param.mac_address?.toLowerCase().includes(keyword)
+    })
+  }
+}
+
 @Component({
   selector: 'app-topology-index',
   templateUrl: './topology-index.component.html',
   styleUrls: ['./topology-index.component.scss']
 })
-export class TopologyIndexComponent implements OnInit , OnDestroy{
+export class TopologyIndexComponent implements OnInit {
 
   @Input() path = ''
   apData$: Observable<any>;
@@ -39,20 +52,14 @@ export class TopologyIndexComponent implements OnInit , OnDestroy{
   chartData = fakeChartData;
   GET_AP_TOPIC = environment.mqttTopic.GET_AP;
 
+  searchString = '';
   searchControl = new FormControl('');
-  unsubscribe$ = new Subject<void>();
 
   constructor(private mqttClient: MqttEventService) { }
 
   ngOnInit(): void {
     this.mqttClient.newSession();
     this.subscribeAp();
-    this.addSearchHandle();
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
   }
 
   /**
@@ -73,17 +80,6 @@ export class TopologyIndexComponent implements OnInit , OnDestroy{
       'text-warning': device.param.quality === 'low',
       'text-success': device.param.quality === 'good'
     }
-  }
-
-  addSearchHandle(): void {
-    this.searchControl.valueChanges.pipe(
-      takeUntil(this.unsubscribe$),
-      debounceTime(300),
-      switchMap((value) => this.apData$.pipe(
-        take(1),
-        tap((data) => this.search(data.objects, value))
-      ))
-    ).subscribe()
   }
 
   search(source: any[], keyword: string): void {

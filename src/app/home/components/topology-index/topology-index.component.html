@@ -4,7 +4,7 @@
     <div class="w-full md:w-1/3">
         <nz-input-group [nzSuffix]="searchIcon">
             <input type="text" nz-input 
-            [formControl]="searchControl"
+            [(ngModel)]="searchString"
             placeholder="Enter a manufacture, product class, serial number, mac address">
         </nz-input-group>
         <ng-template #searchIcon>
@@ -37,7 +37,7 @@
             </tr>
         </thead>
         <tbody *ngIf="apData$|async as apData">
-            <tr *ngFor="let device of apData.objects; let i = index">
+            <tr *ngFor="let device of apData.objects|apfilter: searchString; let i = index">
                 <td>{{i + 1}}</td>
                 <td>
                     <a nz-typography>{{device.param.mac_address}}</a>
