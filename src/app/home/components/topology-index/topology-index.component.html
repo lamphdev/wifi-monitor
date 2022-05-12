@@ -56,8 +56,9 @@
                 <td>
                     <div class="flex flex-nowrap items-center" *ngIf="device.param.backhaul_signal_strength">
                         <span [ngClass]="classIcon(device)">
-                            <i nz-icon nzType="wifi" class="mr-1" nzTheme="outline"></i>
+                            <img width="18" [src]="'assets/icons/' + device.param.quality +'.svg'" alt="">
                         </span>
+                        &nbsp;
                         <span [ngClass]="classIcon(device)">{{device.param.backhaul_signal_strength}}&nbsp;</span>
                     </div>
                     <span *ngIf="!device.param.backhaul_signal_strength">--</span>
