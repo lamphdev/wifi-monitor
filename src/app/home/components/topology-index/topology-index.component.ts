@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { map, Observable, take, takeUntil } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { debounceTime, map, Observable, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { MqttEventService } from '../../services/mqtt-event.service';
 
@@ -30,18 +31,28 @@ const fakeChartData = [
   templateUrl: './topology-index.component.html',
   styleUrls: ['./topology-index.component.scss']
 })
-export class TopologyIndexComponent implements OnInit {
+export class TopologyIndexComponent implements OnInit , OnDestroy{
 
   @Input() path = ''
   apData$: Observable<any>;
+  searchResult: any[];
   chartData = fakeChartData;
   GET_AP_TOPIC = environment.mqttTopic.GET_AP;
+
+  searchControl = new FormControl('');
+  unsubscribe$ = new Subject<void>();
 
   constructor(private mqttClient: MqttEventService) { }
 
   ngOnInit(): void {
     this.mqttClient.newSession();
     this.subscribeAp();
+    this.addSearchHandle();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   /**
@@ -58,10 +69,34 @@ export class TopologyIndexComponent implements OnInit {
 
   classIcon(device: any): any {
     return {
-      'text-warning': device.param.quality === 'bad',
-      'text-primary': device.param.quality === 'low',
+      'text-danger': device.param.quality === 'bad',
+      'text-warning': device.param.quality === 'low',
       'text-success': device.param.quality === 'good'
     }
+  }
+
+  addSearchHandle(): void {
+    this.searchControl.valueChanges.pipe(
+      takeUntil(this.unsubscribe$),
+      debounceTime(300),
+      switchMap((value) => this.apData$.pipe(
+        take(1),
+        tap((data) => this.search(data.objects, value))
+      ))
+    ).subscribe()
+  }
+
+  search(source: any[], keyword: string): void {
+    if (!keyword) {
+      this.searchResult = source;
+      return;
+    }
+    this.searchResult = source.filter(el => {
+      return el.param.manufacturer?.toLowerCase().includes(keyword) ||
+        el.param.product_class?.toLowerCase().includes(keyword) ||
+        el.param.serial_number?.toLowerCase().includes(keyword) ||
+        el.param.mac_address?.toLowerCase().includes(keyword)
+    })
   }
 
 }

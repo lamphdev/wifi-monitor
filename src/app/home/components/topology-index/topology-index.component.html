@@ -1,24 +1,44 @@
 <div class="w-full" style="height: 350px;" appApChart [data]="chartData"></div>
-<div class="mt-3">
-    <nz-table [nzData]="['']" nzSize="small" nzShowPagination="false">
+
+<div class="flex justify-between items-center">
+    <div class="w-full md:w-1/3">
+        <nz-input-group [nzSuffix]="searchIcon">
+            <input type="text" nz-input 
+            [formControl]="searchControl"
+            placeholder="Enter a manufacture, product class, serial number, mac address">
+        </nz-input-group>
+        <ng-template #searchIcon>
+            <i nz-icon nzType="search" nzTheme="outline"></i>
+        </ng-template>
+    </div>
+    <button nz-button nzType="primary">Export</button>
+</div>
+<div class="mt-3 overflow-x-scroll">
+    <nz-table [nzData]="['']" 
+        nzSize="small" 
+        nzTableLayout="auto"
+        nzShowPagination="false">
         <thead>
             <tr>
+                <th>No</th>
                 <th>MAC Address</th>
-                <th>Manufacturer</th>
-                <th>Product Class</th>
-                <th>Serial Number</th>
-                <th>Software Version</th>
-                <th>CPU Usage</th>
-                <th>Memory Usage</th>
+                <th >Manufacturer</th>
+                <th >Product Class</th>
+                <th >Serial Number</th>
+                <th >Software Version</th>
+                <th >CPU Usage</th>
+                <th >Memory Usage</th>
                 <th>IP Lan</th>
                 <th>IP Wan</th>
+                <th>Backhaul Link</th>
                 <th>Signal Strength</th>
                 <th>Quality</th>
                 <th>Number of Device Connected</th>
             </tr>
         </thead>
         <tbody *ngIf="apData$|async as apData">
-            <tr *ngFor="let device of apData.objects">
+            <tr *ngFor="let device of apData.objects; let i = index">
+                <td>{{i + 1}}</td>
                 <td>
                     <a nz-typography>{{device.param.mac_address}}</a>
                 </td>
@@ -30,6 +50,7 @@
                 <td>{{device.param.memory_usage || '--'}}</td>
                 <td>{{device.param.ip_lan || '--'}}</td>
                 <td>{{device.param.ip_wan || '--'}}</td>
+                <td>{{device.param.backhaul_link || '--'}}</td>
                 <td>
                     <div class="flex flex-nowrap items-center" *ngIf="device.param.backhaul_signal_strength">
                         <i nz-icon nzType="wifi" [ngClass]="classIcon(device)" class="mr-1" nzTheme="outline"></i>

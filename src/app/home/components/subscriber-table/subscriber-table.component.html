@@ -5,19 +5,25 @@
     [nzShowPagination]="false">
     <thead>
         <tr>
-            <th>Gateway MAC Adress</th>
+            <th>No</th>
             <th nzEllipsis>Broadband Account</th>
+            <th>Gateway MAC Adress</th>
+            <th>Gateway SN</th>
+            <th>Gateway Alias</th>
             <th>Gateway Model</th>
             <th>Current Software Version</th>
             <th>Online Status</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let subscriber of subscribers">
+        <tr *ngFor="let subscriber of subscribers; let i = index">
+            <td>{{i + 1}}</td>
+            <td>{{subscriber.broadbrand_account}}</td>
             <td>
                 <a nz-typography routerLink="/topology">{{subscriber.mac_adress}}</a>
             </td>
-            <td>{{subscriber.broadbrand_account}}</td>
+            <td>{{subscriber.gateway_sn}}</td>
+            <td>{{subscriber.gateway_alias || '--'}}</td>
             <td>{{subscriber.gateway_model}}</td>
             <td>{{subscriber.software_version}}</td>
             <td>
