@@ -17,7 +17,7 @@ export class TopologyComponent implements OnInit , OnDestroy{
   rateType = 'none';
   tab: TabType = 'index';
   GET_AP_TOPIC = environment.mqttTopic.GET_AP;
-  topo = 'VTGR123456';
+  topo = 'VTGR2A27E658';
   apData$: Observable<any>;
   unsubscribe$ = new Subject<void>();
 

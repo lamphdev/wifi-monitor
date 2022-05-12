@@ -46,8 +46,7 @@ export class ApFilterPipe implements PipeTransform {
     return value.filter(el => {
       return el.param.manufacturer?.toLowerCase().includes(keyword) ||
         el.param.product_class?.toLowerCase().includes(keyword) ||
-        el.param.serial_number?.toLowerCase().includes(keyword) ||
-        el.param.mac_address?.toLowerCase().includes(keyword)
+        el.param.serial_number?.toLowerCase().includes(keyword) 
     })
   }
 }
@@ -85,6 +84,20 @@ export class TopologyIndexComponent implements OnInit {
       tap(data => this.buildChartTree(data?.objects)),
       take(1)
     );
+    // const request = {
+    //   "from": this.mqttClient.currentSession,
+    //   "to": this.path,
+    //   "id": 2,
+    //   "type": "get",
+    //   "objects": [
+    //     {
+    //       "name": "ap",
+    //       "instance": 2,
+    //       "params": []
+    //     }
+    //   ]
+    // };
+    // this.mqttClient.publish(`${this.GET_AP_TOPIC}/${this.path}`, JSON.stringify(request));
     this.mqttClient.fakeResponse(topic);
   }
 
@@ -121,19 +134,6 @@ export class TopologyIndexComponent implements OnInit {
       'text-warning': device.param.quality === 'low',
       'text-success': device.param.quality === 'good'
     }
-  }
-
-  search(source: any[], keyword: string): void {
-    if (!keyword) {
-      this.searchResult = source;
-      return;
-    }
-    this.searchResult = source.filter(el => {
-      return el.param.manufacturer?.toLowerCase().includes(keyword) ||
-        el.param.product_class?.toLowerCase().includes(keyword) ||
-        el.param.serial_number?.toLowerCase().includes(keyword) ||
-        el.param.mac_address?.toLowerCase().includes(keyword)
-    })
   }
 
 }
