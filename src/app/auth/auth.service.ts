@@ -14,8 +14,8 @@ export class AuthService {
 
   login(loginData: any) {
     localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('user', loginData.email);
-    this.user = loginData.email;
+    localStorage.setItem('user', loginData.username);
+    this.user = loginData.username;
     this.router.navigate(['']);
   }
 

@@ -94,6 +94,7 @@ export class TopologyIndexComponent implements OnInit {
     //   "objects": [
     //     {
     //       "name": "ap",
+    //       "instance": 2,
     //       "params": []
     //     }
     //   ]
