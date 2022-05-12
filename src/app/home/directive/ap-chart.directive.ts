@@ -70,7 +70,7 @@ export class ApChartDirective implements OnInit, OnChanges {
     const wrapperWidth = wrapper.offsetWidth;
     const wrapperHeight = wrapper.offsetHeight;
 
-    const minWith = (this.deep + 1) * 200 + (this.r * 2 * this.deep);
+    const minWith = (this.deep + 1) * 250 + (this.r * 2 * this.deep);
     const maxByLevel = Object.keys(this.mapLevel).reduce((result, item) => {
       if (this.mapLevel[Number(item)] >result) {
         return this.mapLevel[Number(item)];
@@ -164,7 +164,7 @@ export class ApChartDirective implements OnInit, OnChanges {
 
       // draw connection
       ctx.beginPath();
-      if (data.type === 'wifi') {
+      if (data.type?.startsWith('wifi')) {
         ctx.setLineDash([5, 3]);
       }
       ctx?.moveTo(fromX, fromY);
@@ -183,7 +183,7 @@ export class ApChartDirective implements OnInit, OnChanges {
       const angle = Math.atan2(dy, dx);
 
       ctx.beginPath();
-      if (data.type === 'wifi') {
+      if (data.type?.startsWith('wifi')) {
         ctx.setLineDash([5, 3]);
       }
       ctx.moveTo(fromX, fromY);
@@ -207,12 +207,33 @@ export class ApChartDirective implements OnInit, OnChanges {
   drawConnectInfo(x: number, y: number, ctx: CanvasRenderingContext2D, data: ChartNode): void {
     ctx.beginPath();
     ctx.setLineDash([]);
-    ctx.font = '13px Sans';
-    ctx.strokeStyle = '#16a34a';
-    ctx.strokeText(`▲: ${data.speedUp?.toFixed(2) || '--'} kbit/s`, x, y - 5);
+    ctx.font = '15px Sans';
     ctx.strokeStyle = '#0284c7';
-    ctx.strokeText(`▼: ${data.speedDown?.toFixed(2) || '--'} kbit/s`, x, y + 12 +5 );
-    ctx?.stroke();
+    ctx.strokeText(`▲: ${data.speedUp?.toFixed(2) || '--'} kbit/s`, x, y - 5);
+    ctx.strokeStyle = '#16a34a';
+    ctx.strokeText(`▼: ${data.speedDown?.toFixed(2) || '--'} kbit/s`, x, y + 15 + 2);
+    ctx.stroke();
+
+    if (data.type?.startsWith('wifi')){
+      const iconSize = 13;
+      // draw icon wifi
+      ctx.beginPath();
+      const icon = `/assets/icons/${data.type === 'wifi5' ? 'wifi5.svg' : 'wifi2_4.svg'}`;
+      const image = new Image();
+      image.onload = () => {
+        ctx.drawImage(image, x + 55, y - iconSize - 5, iconSize, iconSize);
+      }
+      image.src = icon;
+      ctx?.stroke();
+
+      // draw type wifi
+      ctx.beginPath();
+      const text = data.type === 'wifi5' ? '5G' : '2.4G';
+      ctx.textAlign = 'left';
+      ctx.strokeStyle = data.type === 'wifi5' ? '#16a34a' : '#d97706';
+      ctx.strokeText(text, x + 55 + iconSize + 2, y - 5);
+      ctx.stroke();
+    }
   }
 
 }
