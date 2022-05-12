@@ -45,8 +45,8 @@ export class DeviceTableComponent implements OnInit , OnChanges{
 
   classIcon(row: any): any {
     return {
-      'text-warning': row.param.quality === 'bad',
-      'text-primary': row.param.quality === 'low',
+      'text-error': row.param.quality === 'bad',
+      'text-warning': row.param.quality === 'low',
       'text-success': row.param.quality === 'good'
     }
   }
