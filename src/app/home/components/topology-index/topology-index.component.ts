@@ -5,39 +5,39 @@ import { ChartNode } from 'src/app/shared/model/chart-node';
 import { environment } from 'src/environments/environment';
 import { MqttEventService } from '../../services/mqtt-event.service';
 
-const fakeChartData: ChartNode[] = [
-  {
-    text: 'Internet',
-    children: [
-      {
-        text: 'Moderm 1',
-        speedUp: 23,
-        speedDown: 44,
-        type: 'ethernet',
-        children: [
-          {
-            text: 'Pc 01',
-            type: 'ethernet',
-            speedDown: 30.51,
-            speedUp: 65.63
-          },
-          {
-            text: 'Iphone',
-            type: 'wifi',
-            speedDown: 44.56,
-            speedUp: 75.23
-          },
-          {
-            text: 'Tablet',
-            type: 'wifi',
-            speedDown: 42.02,
-            speedUp: 22.13
-          }
-        ]
-      }
-    ]
-  }
-];
+// const fakeChartData: ChartNode[] = [
+//   {
+//     text: 'Internet',
+//     children: [
+//       {
+//         text: 'Moderm 1',
+//         speedUp: 23,
+//         speedDown: 44,
+//         type: 'ethernet',
+//         children: [
+//           {
+//             text: 'Pc 01',
+//             type: 'ethernet',
+//             speedDown: 30.51,
+//             speedUp: 65.63
+//           },
+//           {
+//             text: 'Iphone',
+//             type: 'wifi',
+//             speedDown: 44.56,
+//             speedUp: 75.23
+//           },
+//           {
+//             text: 'Tablet',
+//             type: 'wifi',
+//             speedDown: 42.02,
+//             speedUp: 22.13
+//           }
+//         ]
+//       }
+//     ]
+//   }
+// ];
 
 @Pipe({name: 'apfilter'})
 export class ApFilterPipe implements PipeTransform {
@@ -79,20 +79,21 @@ export class TopologyIndexComponent implements OnInit {
    */
    subscribeAp(): void {
     const topic = `${this.GET_AP_TOPIC}/${this.path}/${this.mqttClient.currentSession}`;
+    console.log(topic);
     this.apData$ = this.mqttClient.subscribe(topic).pipe(
       map(data => JSON.parse(data.payload.toString())),
+      tap(data => console.log(data.objects)),
       tap(data => this.buildChartTree(data?.objects)),
       take(1)
     );
     // const request = {
     //   "from": this.mqttClient.currentSession,
-    //   "to": this.path,
+    //   "to": "VTGR2A27E658",
     //   "id": 2,
     //   "type": "get",
     //   "objects": [
     //     {
     //       "name": "ap",
-    //       "instance": 2,
     //       "params": []
     //     }
     //   ]
@@ -107,7 +108,6 @@ export class TopologyIndexComponent implements OnInit {
     }
     const tree = this.chartData = data.filter(item => item.param.mac_backhaul_ap === 'none')
       .map(item => this.findChild(item, data));
-    console.log(tree);
     this.chartData = [
       {
         text: 'Internet',

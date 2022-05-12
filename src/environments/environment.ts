@@ -8,7 +8,7 @@ export const environment = {
     hostname: 'vhtont.sytes.net',
     port: 1883,
     protocol: 'ws',
-    path: ''
+    path: '/mqtt'
   },
   mqttTopic: {
     GET_AP: 'vht/mesh/demo',
