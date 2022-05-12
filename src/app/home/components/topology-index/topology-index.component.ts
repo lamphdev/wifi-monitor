@@ -82,9 +82,37 @@ export class TopologyIndexComponent implements OnInit {
     const topic = `${this.GET_AP_TOPIC}/${this.path}/${this.mqttClient.currentSession}`;
     this.apData$ = this.mqttClient.subscribe(topic).pipe(
       map(data => JSON.parse(data.payload.toString())),
+      tap(data => this.buildChartTree(data?.objects)),
       take(1)
     );
     this.mqttClient.fakeResponse(topic);
+  }
+
+  async buildChartTree(data: any[]): Promise<any> {
+    if (!data) {
+      return;
+    }
+    const tree = this.chartData = data.filter(item => item.param.mac_backhaul_ap === 'none')
+      .map(item => this.findChild(item, data));
+    console.log(tree);
+    this.chartData = [
+      {
+        text: 'Internet',
+        children: tree
+      }
+    ]
+  }
+
+  findChild(dataNode: any, source: any[]): ChartNode {
+    const children = source.filter(el => el.param.mac_backhaul_ap === dataNode.param.mac_address);
+    return {
+      ...dataNode,
+      text: dataNode.param.product_class,
+      type: dataNode.param.backhaul_link,
+      speedUp: Math.random() * 100,
+      speedDown: Math.random() * 100,
+      children: children.map(child => this.findChild(child, source))
+    }
   }
 
   classIcon(device: any): any {

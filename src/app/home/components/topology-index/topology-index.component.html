@@ -21,31 +21,32 @@
         <thead>
             <tr>
                 <th>No</th>
+                <th>Manufacturer</th>
+                <th>Product Class</th>
+                <th>Serial Number</th>
+                <th>Software Version</th>
                 <th>MAC Address</th>
-                <th >Manufacturer</th>
-                <th >Product Class</th>
-                <th >Serial Number</th>
-                <th >Software Version</th>
-                <th >CPU Usage</th>
-                <th >Memory Usage</th>
+                <th>CPU Usage</th>
+                <th>Memory Usage</th>
                 <th>IP Lan</th>
                 <th>IP Wan</th>
                 <th>Backhaul Link</th>
-                <th>Signal Strength</th>
+                <th>Backhaul Signal Strength (db)</th>
+                <th>Backhaul Link Rate (mbps)</th>
                 <th>Quality</th>
-                <th>Number of Device Connected</th>
+                <th>Role</th>
             </tr>
         </thead>
         <tbody *ngIf="apData$|async as apData">
             <tr *ngFor="let device of apData.objects|apfilter: searchString; let i = index">
                 <td>{{i + 1}}</td>
-                <td>
-                    <a nz-typography>{{device.param.mac_address}}</a>
-                </td>
                 <td>{{device.param.manufacturer}}</td>
                 <td>{{device.param.product_class}}</td>
                 <td>{{device.param.serial_number}}</td>
                 <td>{{device.param.software_version}}</td>
+                <td>
+                    <a nz-typography>{{device.param.mac_address}}</a>
+                </td>
                 <td>{{device.param.cpu_usage || '--'}}</td>
                 <td>{{device.param.memory_usage || '--'}}</td>
                 <td>{{device.param.ip_lan || '--'}}</td>
@@ -59,8 +60,9 @@
                     </div>
                     <span *ngIf="!device.param.backhaul_signal_strength">--</span>
                 </td>
+                <td>{{device.param.backhaul_link_rate || '--'}}</td>
                 <td>{{device.param.quality}}</td>
-                <td>{{device.instance}}</td>
+                <td>{{device.backhaul_link === 'none' ? 'Controller' : 'Agent'}}</td>
             </tr>
         </tbody>
     </nz-table>

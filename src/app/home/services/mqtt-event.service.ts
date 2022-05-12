@@ -37,8 +37,8 @@ export class MqttEventService {
 
   fakeResponse(topic: string): void {
     setInterval(() => {
-      const random = fake_ap_response[Math.floor(Math.random()*fake_ap_response.length)]
-      const data = JSON.stringify(random);
+      const apData = fake_ap_response[0]
+      const data = JSON.stringify(apData);
       this.publish(topic, data);
     }, 1000);
   }

@@ -194,9 +194,9 @@ export class ApChartDirective implements OnInit, OnChanges {
     ctx.setLineDash([]);
     ctx.font = '13px Sans';
     ctx.strokeStyle = '#16a34a';
-    ctx.strokeText(`▲: ${data.speedUp || '--'} kbit/s`, x, y - 5);
+    ctx.strokeText(`▲: ${data.speedUp?.toFixed(2) || '--'} kbit/s`, x, y - 5);
     ctx.strokeStyle = '#0284c7';
-    ctx.strokeText(`▼: ${data.speedDown || '--'} kbit/s`, x, y + 12 +5 );
+    ctx.strokeText(`▼: ${data.speedDown?.toFixed(2) || '--'} kbit/s`, x, y + 12 +5 );
     ctx?.stroke();
   }
 
