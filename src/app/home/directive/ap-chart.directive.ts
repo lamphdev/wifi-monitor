@@ -31,6 +31,13 @@ export class ApChartDirective implements OnInit, OnChanges {
     this.deep = 0;
     this.mapLevel = {};
     this.data.forEach(data => this.traveNode(data));
+    this.memoMap = {};
+    for (let i = 1; i <= this.deep; i ++) {
+      this.memoMap = {
+        ...this.memoMap,
+        [i]: 0
+      }
+    }
   }
 
   traveNode(data: ChartNode, deep = 1): void {
@@ -49,7 +56,7 @@ export class ApChartDirective implements OnInit, OnChanges {
       this.deep = deep;
     }
     if (data.children) {
-      (data.children as any[]).forEach(child => this.traveNode(child, deep + 1) )
+      data.children.forEach(child => this.traveNode(child, deep + 1) )
     }
   }
 
@@ -57,15 +64,10 @@ export class ApChartDirective implements OnInit, OnChanges {
     if (!this.data) {
       return;
     }
-    this.memoMap = {
-      1: 0,
-      2: 0,
-      3: 0
-    }
+    this.calculateData();
     const wrapper = this.elRef.nativeElement as HTMLElement;
     const wrapperWidth = wrapper.offsetWidth;
     const wrapperHeight = wrapper.offsetHeight;
-    console.log(wrapperWidth, wrapperHeight);
     wrapper.innerHTML = '';
     const canvas = document.createElement('canvas');  
     wrapper.appendChild(canvas);
@@ -82,7 +84,6 @@ export class ApChartDirective implements OnInit, OnChanges {
 
 
   drawNode(width: number, height: number, level: number, data: ChartNode, ctx: CanvasRenderingContext2D, joinx: number, joiny: number) {
-
     const r = 30;
     const padding = 20;
     const stepX = width / (this.deep + 1);

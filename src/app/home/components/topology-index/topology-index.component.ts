@@ -62,7 +62,7 @@ export class TopologyIndexComponent implements OnInit {
   @Input() path = ''
   apData$: Observable<any>;
   searchResult: any[];
-  chartData = fakeChartData;
+  chartData: ChartNode[] = [];
   GET_AP_TOPIC = environment.mqttTopic.GET_AP;
 
   searchString = '';
@@ -100,7 +100,7 @@ export class TopologyIndexComponent implements OnInit {
         text: 'Internet',
         children: tree
       }
-    ]
+    ];
   }
 
   findChild(dataNode: any, source: any[]): ChartNode {
