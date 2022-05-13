@@ -74,7 +74,7 @@ export class TopologyIndexComponent implements OnInit {
     if (!data) {
       return;
     }
-    const tree = this.chartData = data.filter(item => item.param.mac_backhaul_ap === 'none')
+    const tree = this.chartData = data.filter(item => item.param.role === 1)
       .map(item => this.findChild(item, data));
     
     if (tree.length != 0) {
