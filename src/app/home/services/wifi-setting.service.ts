@@ -14,7 +14,7 @@ export class WifiSettingService {
   constructor(private mqttClient: MqttClientService) { }
 
   getWifiSetting(type: '2_4ghz' | '5ghz', sessionId: string): Observable<any> {
-    sessionId = type + '_' +  sessionId.split('-')[0];
+    // sessionId = type + '_' +  sessionId.split('-')[0];
     var payload = {
       "from": sessionId,
       "to": DEVICE,
@@ -22,7 +22,7 @@ export class WifiSettingService {
       "type": "get",
       "objects": [
         {
-          "name": type == '2_4ghz' ? "wifi24" : "wifi",
+          "name": type == '2_4ghz' ? "wifi24" : "wifi5",
           "params": []
         }
       ]
@@ -41,7 +41,7 @@ export class WifiSettingService {
   }
 
   getGeneralSetting(sessionId: string): Observable<any> {
-    sessionId = 'general_' + sessionId.split('-')[0];
+    // sessionId = 'general_' + sessionId.split('-')[0];
     var payload = {
       "from": sessionId,
       "to": DEVICE,
@@ -68,7 +68,7 @@ export class WifiSettingService {
 
   settingGeneral(formValue: any, sessionId: string): Observable<any> {
 
-    sessionId = 'setting_general_' + sessionId.split('-')[0];
+    // sessionId = 'setting_general_' + sessionId.split('-')[0];
 
     let payload = {
       "from": sessionId,
@@ -99,7 +99,7 @@ export class WifiSettingService {
 
   settingWifi(type: string, formValue: any, sessionId: string): Observable<any> {
 
-    sessionId = 'setting_' + type + '_' + sessionId.split('-')[0];
+    // sessionId = 'setting_' + type + '_' + sessionId.split('-')[0];
 
     let payload = {
       "from": sessionId,
@@ -108,7 +108,7 @@ export class WifiSettingService {
       "type": "set",
       "objects": [
         {
-          "name": type == '2_4ghz' ? "wifi24" : "wifi",
+          "name": type == '2_4ghz' ? "wifi24" : "wifi5",
           "instance": 1,
           "param": {
             "ssid_index": 1,
