@@ -61,13 +61,13 @@ export class TopologyIndexComponent implements OnInit {
       "objects": [
         {
           "name": "ap",
-          "instance": 2,
+          "instance": 1,
           "params": []
         }
       ]
-    };
+    }
     this.mqttClient.publish(`${this.GET_AP_TOPIC}/${this.path}`, JSON.stringify(request));
-    //this.mqttClient.fakeResponse(topic);
+    // this.mqttClient.fakeResponse(topic);
   }
 
   async buildChartTree(data: any[]): Promise<any> {
@@ -76,12 +76,15 @@ export class TopologyIndexComponent implements OnInit {
     }
     const tree = this.chartData = data.filter(item => item.param.mac_backhaul_ap === 'none')
       .map(item => this.findChild(item, data));
-    this.chartData = [
-      {
-        text: 'Internet',
-        children: tree
-      }
-    ];
+    
+    if (tree.length != 0) {
+      this.chartData = [
+        {
+          text: 'Internet',
+          children: tree
+        }
+      ];
+    }
   }
 
   findChild(dataNode: any, source: any[]): ChartNode {
