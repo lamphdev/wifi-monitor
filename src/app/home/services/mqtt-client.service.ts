@@ -19,7 +19,7 @@ export class MqttClientService {
         }
       }),
       map((val) => {
-        console.log('recived from: ' + topic, JSON.stringify(val));
+        console.log('recived from: ' + topic, val);
         return val;
       })
     );

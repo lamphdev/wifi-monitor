@@ -45,7 +45,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         security_mode: data.security_mode,
         preshared_key: data.preshared_key,
         encrypt_mode: data.encrypt_mode,
-        enable: data.enable,
+        enable: data.enable === 1,
       });
     })
     this.subcribles.add(sub);
@@ -55,10 +55,21 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
     let sub = this.wifiSettingService.settingGeneral(this.validateForm.value, this.sessionId)
       .subscribe(res => {
-        this.modal.info({
-          nzContent: 'SUCCESS',
-          nzOnOk: () => { this.modal.closeAll() }
-        })
+        if (res.errors?.length) {
+          let ref = this.modal.error({
+            nzContent: res.errors[0].cause,
+            nzOnOk: () => {
+              ref.close();
+            },
+          });
+        } else {
+          this.modal.info({
+            nzContent: 'SUCCESS',
+            nzOnOk: () => {
+              this.modal.closeAll();
+            },
+          });
+        }
       });
     this.subcribles.add(sub);
   }

@@ -35,18 +35,19 @@ export class WifiSettingFormComponent implements OnInit, OnDestroy {
       enable: [false],
       mode: [],
       channel: [],
-      band_width: [],
+      band_wide: [],
       power: [],
     });
 
     let sub = this.wifiSettingService.getWifiSetting(this.type, this.sessionId)
       .subscribe(res => {
+        // console.log(this.type, res)
         let data = res.objects[0].param;
         this.validateForm.patchValue({
-          enable: data.enable,
+          enable: data.enable === 1,
           mode: data.mode,
           channel: String(data.channel),
-          band_width: data.band_width,
+          band_wide: data.band_wide,
           power: data.power,
         });
       })

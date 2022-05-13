@@ -68,6 +68,8 @@ export class WifiSettingService {
 
   settingGeneral(formValue: any, sessionId: string): Observable<any> {
 
+    sessionId = 'setting_general_' + sessionId.split('-')[0];
+
     let payload = {
       "from": sessionId,
       "to": DEVICE,
@@ -79,7 +81,8 @@ export class WifiSettingService {
           "instance": 1,
           "param": {
             "ssid_index": 1,
-            ...formValue
+            ...formValue,
+            enable: formValue.enable ? 1 : 0,
           }
         }
       ]
@@ -96,6 +99,8 @@ export class WifiSettingService {
 
   settingWifi(type: string, formValue: any, sessionId: string): Observable<any> {
 
+    sessionId = 'setting_' + type + '_' + sessionId.split('-')[0];
+
     let payload = {
       "from": sessionId,
       "to": DEVICE,
@@ -107,7 +112,8 @@ export class WifiSettingService {
           "instance": 1,
           "param": {
             "ssid_index": 1,
-            ...formValue
+            ...formValue,
+            enable: formValue.enable ? 1 : 0
           }
         }
       ]
