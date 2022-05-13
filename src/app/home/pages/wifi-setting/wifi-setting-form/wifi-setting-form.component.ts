@@ -58,10 +58,25 @@ export class WifiSettingFormComponent implements OnInit, OnDestroy {
 
     let sub = this.wifiSettingService.settingWifi(this.type, this.validateForm.value, this.sessionId)
       .subscribe(res => {
-        this.modal.info({
-          nzContent: 'SUCCESS',
-          nzOnOk: () => { this.modal.closeAll() }
-        })
+
+        if (res.errors?.length) {
+          let ref = this.modal.error({
+            nzContent: res.errors
+              .map((e: any) => '<div>' + e.cause + '</div>')
+              .join(''),
+            nzOnOk: () => {
+              ref.close();
+            },
+          });
+        } else {
+          this.modal.info({
+            nzContent: 'SUCCESS',
+            nzOnOk: () => {
+              this.modal.closeAll();
+            },
+          });
+        }
+
       });
 
     this.subcribles.add(sub);

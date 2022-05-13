@@ -57,7 +57,9 @@ export class GeneralComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         if (res.errors?.length) {
           let ref = this.modal.error({
-            nzContent: res.errors[0].cause,
+            nzContent: res.errors
+              .map((e: any) => '<div>' + e.cause + '</div>')
+              .join(''),
             nzOnOk: () => {
               ref.close();
             },
