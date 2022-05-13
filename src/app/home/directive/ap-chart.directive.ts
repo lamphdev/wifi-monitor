@@ -80,7 +80,7 @@ export class ApChartDirective implements OnInit, OnChanges {
     const minHeight = (maxByLevel) * this.r * 2 + (maxByLevel + 1) * 50;
     const canvasWith = Math.max(wrapperWidth, minWith);
     const canvasHeight = Math.max(wrapperHeight, minHeight);
-    wrapper.style.height = `${minHeight}px`;
+    wrapper.style.height = `${canvasHeight}px`;
 
     wrapper.innerHTML = '';
     const canvas = document.createElement('canvas');  
