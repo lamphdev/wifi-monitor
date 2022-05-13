@@ -42,6 +42,7 @@ export class WifiSettingComponent implements OnInit {
       "WPA",
       "WPA2",
       "WPA2PSK",
+      "WPA2PSKPSK",
       "WPA3",
     ]
   };
