@@ -62,7 +62,7 @@ export class ApChartDirective implements OnInit, OnChanges {
   }
 
   draw() {
-    if (!this.data) {
+    if (this.data.length === 0) {
       return;
     }
     this.calculateData();
@@ -77,7 +77,7 @@ export class ApChartDirective implements OnInit, OnChanges {
       }
       return result;
     }, 0);
-    const minHeight = (maxByLevel) * this.r * 2 + (maxByLevel + 1) * 40;
+    const minHeight = (maxByLevel) * this.r * 2 + (maxByLevel + 1) * 50;
     const canvasWith = Math.max(wrapperWidth, minWith);
     const canvasHeight = Math.max(wrapperHeight, minHeight);
     wrapper.style.height = `${minHeight}px`;
@@ -108,7 +108,11 @@ export class ApChartDirective implements OnInit, OnChanges {
       [level]: this.memoMap[level] + 1
     }
     const x = stepX * (level);
-    const y = stepY * this.memoMap[level];
+    let y = stepY * this.memoMap[level];
+    // handle level
+    if (level >= 4) {
+      y = joiny;
+    }
 
     ctx.beginPath();
     ctx.setLineDash([]);
@@ -128,18 +132,23 @@ export class ApChartDirective implements OnInit, OnChanges {
     ctx.stroke();
 
     // draw text
+    const fontSize = 13;
     ctx.beginPath();
     ctx.setLineDash([]);
+    ctx.font = `${13}px Sans`;
     ctx.textAlign = 'center';
-    ctx.strokeText(data.text, x , y + r + 10);
+    ctx.strokeText(data.text, x , y + r + fontSize + 2);
+    if (level !== 1) { // Level  = 1 (Internet) not have mac address
+      ctx.strokeText(data.mac_address || '--', x, y + r + fontSize * 2 + 2);
+    }
     ctx.stroke(); 
 
     // draw line
-    const fromX = joinx + 5;
-    const fromY = joiny;
-    const toX = x - r - 5;
-    const toY = y;
     if (joinx != -1 && joiny != -1) {
+      const fromX = joinx + 5;
+      const fromY = joiny;
+      const toX = x - r - 5;
+      const toY = y;
       this.drawConnect(fromX, fromY, toX, toY, ctx, data);
     }
 
@@ -205,15 +214,17 @@ export class ApChartDirective implements OnInit, OnChanges {
   }
 
   drawConnectInfo(x: number, y: number, ctx: CanvasRenderingContext2D, data: ChartNode): void {
-    ctx.beginPath();
-    ctx.setLineDash([]);
-    ctx.font = '15px Sans';
-    ctx.strokeStyle = '#0284c7';
-    ctx.strokeText(`▲: ${data.speedUp?.toFixed(2) || '--'} kbit/s`, x, y - 5);
-    ctx.strokeStyle = '#16a34a';
-    ctx.strokeText(`▼: ${data.speedDown?.toFixed(2) || '--'} kbit/s`, x, y + 15 + 2);
-    ctx.stroke();
+    // ctx.beginPath();
+    // ctx.setLineDash([]);
+    // ctx.font = '15px Sans';
+    // ctx.strokeStyle = '#0284c7';
+    // ctx.strokeText(`▲: ${data.speedUp?.toFixed(2) || '--'} kbit/s`, x, y - 5);
+    // ctx.strokeStyle = '#16a34a';
+    // ctx.strokeText(`▼: ${data.speedDown?.toFixed(2) || '--'} kbit/s`, x, y + 15 + 2);
+    // ctx.stroke();
 
+    ctx.setLineDash([]);
+    ctx.font = '15px Sans'
     if (data.type?.startsWith('wifi')){
       const iconSize = 13;
       // draw icon wifi
@@ -221,7 +232,7 @@ export class ApChartDirective implements OnInit, OnChanges {
       const icon = `/assets/icons/${data.type === 'wifi5' ? 'wifi5.svg' : 'wifi2_4.svg'}`;
       const image = new Image();
       image.onload = () => {
-        ctx.drawImage(image, x + 55, y - iconSize - 5, iconSize, iconSize);
+        ctx.drawImage(image, x, y - iconSize - 5, iconSize, iconSize);
       }
       image.src = icon;
       ctx?.stroke();
@@ -231,7 +242,7 @@ export class ApChartDirective implements OnInit, OnChanges {
       const text = data.type === 'wifi5' ? '5G' : '2.4G';
       ctx.textAlign = 'left';
       ctx.strokeStyle = data.type === 'wifi5' ? '#16a34a' : '#d97706';
-      ctx.strokeText(text, x + 55 + iconSize + 2, y - 5);
+      ctx.strokeText(text, x + iconSize + 2, y - 5);
       ctx.stroke();
     }
   }

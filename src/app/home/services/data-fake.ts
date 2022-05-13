@@ -293,6 +293,23 @@ export const fake_ap_response = [
           quality: "good"
         }
       },
+      {
+        name: "ap",
+        instance: 2,
+        param: {
+          manufacturer: "UIE",
+          product_class: "PC 024",
+          serial_number: "PCDTDIE05",
+          software_version: "WIN.11",
+          mac_address: "TY:UI:IU:22:12:14",
+          backhaul_link: "ethernet",
+          backhaul_signal_strength: 0 - Math.floor(Math.random() * 100),
+          backhaul_link_rate: 20,
+          role: 2,
+          mac_backhaul_ap: 'EA:GE:DD:14:33:21',
+          quality: "good"
+        }
+      },
     ]
   },
   {

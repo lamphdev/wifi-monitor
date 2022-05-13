@@ -1,72 +1,81 @@
-<div class="w-full overflow-auto" style="height: 350px;" appApChart [data]="chartData"></div>
-
-<div class="flex justify-between items-center">
-    <div class="w-full md:w-1/3">
-        <nz-input-group [nzSuffix]="searchIcon">
-            <input type="text" nz-input 
-            [(ngModel)]="searchString"
-            placeholder="Enter a Manufacture, Product Class, Serial number">
-        </nz-input-group>
-        <ng-template #searchIcon>
-            <i nz-icon nzType="search" nzTheme="outline"></i>
-        </ng-template>
+<div class="bg-white rounded-b-xl">
+    <div class="w-full overflow-auto" style="height: 350px;" 
+        appApChart [data]="chartData">
     </div>
-    <button nz-button nzType="primary">Export</button>
 </div>
-<p class="text-danger"></p>
-<div class="mt-3 overflow-x-scroll">
-    <nz-table [nzData]="['']" 
-        nzSize="small" 
-        nzTableLayout="auto"
-        nzShowPagination="false">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Manufacturer</th>
-                <th>Product Class</th>
-                <th>Serial Number</th>
-                <th>Software Version</th>
-                <th>MAC Address</th>
-                <th>CPU Usage (%)</th>
-                <th>Memory Usage (%)</th>
-                <th>IP Lan</th>
-                <th>IP Wan</th>
-                <th>Backhaul Link</th>
-                <th>Backhaul Signal Strength (db)</th>
-                <th>Backhaul Link Rate (mbps)</th>
-                <th>Quality</th>
-                <th>Role</th>
-            </tr>
-        </thead>
-        <tbody *ngIf="apData$|async as apData">
-            <tr *ngFor="let device of apData.objects|apfilter: searchString; let i = index">
-                <td>{{i + 1}}</td>
-                <td>{{device.param.manufacturer}}</td>
-                <td>{{device.param.product_class}}</td>
-                <td>{{device.param.serial_number}}</td>
-                <td>{{device.param.software_version}}</td>
-                <td>
-                    <a nz-typography>{{device.param.mac_address}}</a>
-                </td>
-                <td>{{device.param.cpu_usage || '--'}}</td>
-                <td>{{device.param.memory_usage || '--'}}</td>
-                <td>{{device.param.ip_lan || '--'}}</td>
-                <td>{{device.param.ip_wan || '--'}}</td>
-                <td>{{device.param.backhaul_link || '--'}}</td>
-                <td>
-                    <div class="flex flex-nowrap items-center" *ngIf="device.param.backhaul_signal_strength">
-                        <span [ngClass]="classIcon(device)">
-                            <img width="18" [src]="'assets/icons/' + device.param.quality +'.svg'" alt="">
-                        </span>
-                        &nbsp;
-                        <span [ngClass]="classIcon(device)">{{device.param.backhaul_signal_strength}}&nbsp;</span>
-                    </div>
-                    <span *ngIf="!device.param.backhaul_signal_strength">--</span>
-                </td>
-                <td>{{device.param.backhaul_link_rate || '--'}}</td>
-                <td>{{device.param.quality}}</td>
-                <td>{{device.param.role === 1 ? 'Controller' : 'Agent'}}</td>
-            </tr>
-        </tbody>
-    </nz-table>
+<div class="mt-3">
+    <h1 class="font-bold text-lg mx-2">Ap List</h1>
 </div>
+<nz-card>
+    <div class="flex my-3 justify-between items-center">
+        <div class="w-full md:w-1/3">
+            <nz-input-group [nzSuffix]="searchIcon">
+                <input type="text" nz-input 
+                [(ngModel)]="searchString"
+                placeholder="Enter a Manufacture, Product Class, Serial number">
+            </nz-input-group>
+            <ng-template #searchIcon>
+                <i nz-icon nzType="search" nzTheme="outline"></i>
+            </ng-template>
+        </div>
+        <button nz-button nzType="primary">Export</button>
+    </div>
+    
+    <div class="overflow-x-scroll rounded-t-xl">
+        <nz-table [nzData]="['']" 
+            nzSize="small" 
+            nzTableLayout="auto"
+            nzShowPagination="false">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Manufacturer</th>
+                    <th>Product Class</th>
+                    <th>Serial Number</th>
+                    <th>Software Version</th>
+                    <th>MAC Address</th>
+                    <th>CPU Usage (%)</th>
+                    <th>Memory Usage (%)</th>
+                    <th>IP Lan</th>
+                    <th>IP Wan</th>
+                    <th>Backhaul Link</th>
+                    <th>Backhaul Signal Strength (db)</th>
+                    <th>Backhaul Link Rate (mbps)</th>
+                    <th>Quality</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="apData$|async as apData">
+                <tr *ngFor="let device of apData.objects|apfilter: searchString; let i = index">
+                    <td>{{i + 1}}</td>
+                    <td>{{device.param.manufacturer || '--'}}</td>
+                    <td>{{device.param.product_class || '--'}}</td>
+                    <td>{{device.param.serial_number || '--'}}</td>
+                    <td>{{device.param.software_version || '--'}}</td>
+                    <td>
+                        {{device.param.mac_address || '--'}}
+                        <!-- <a nz-typography>{{device.param.mac_address}}</a> -->
+                    </td>
+                    <td>{{device.param.cpu_usage || '--'}}</td>
+                    <td>{{device.param.memory_usage || '--'}}</td>
+                    <td>{{device.param.ip_lan || '--'}}</td>
+                    <td>{{device.param.ip_wan || '--'}}</td>
+                    <td>{{device.param.backhaul_link || '--'}}</td>
+                    <td>
+                        <div class="flex flex-nowrap items-center" *ngIf="device.param.backhaul_signal_strength">
+                            <span [ngClass]="classIcon(device)">
+                                <img width="18" [src]="'assets/icons/' + device.param.quality +'.svg'" alt="">
+                            </span>
+                            &nbsp;
+                            <span [ngClass]="classIcon(device)">{{device.param.backhaul_signal_strength}}&nbsp;</span>
+                        </div>
+                        <span *ngIf="!device.param.backhaul_signal_strength">--</span>
+                    </td>
+                    <td>{{device.param.backhaul_link_rate || '--'}}</td>
+                    <td>{{device.param.quality}}</td>
+                    <td>{{device.param.role === 1 ? 'Controller' : 'Agent'}}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</nz-card>
