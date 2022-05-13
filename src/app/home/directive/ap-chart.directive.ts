@@ -80,7 +80,7 @@ export class ApChartDirective implements OnInit, OnChanges {
     const minHeight = (maxByLevel) * this.r * 2 + (maxByLevel + 1) * 50;
     const canvasWith = Math.max(wrapperWidth, minWith);
     const canvasHeight = Math.max(wrapperHeight, minHeight);
-    wrapper.style.height = `${minHeight}px`;
+    wrapper.style.height = `${canvasHeight}px`;
 
     wrapper.innerHTML = '';
     const canvas = document.createElement('canvas');  
@@ -116,19 +116,21 @@ export class ApChartDirective implements OnInit, OnChanges {
 
     ctx.beginPath();
     ctx.setLineDash([]);
-    ctx.strokeStyle = '#0369a1';
+    ctx.strokeStyle = '#f43f5e';
+    ctx.fillStyle = '#f43f5e';
     ctx.arc(x, y, r, 0, 2 * Math.PI);
+    ctx.fill();
     ctx.stroke();
 
     // draw node icon
     ctx.beginPath();
     const img = new Image();
-    img.setAttribute('fill', 'green');
-    img.classList.add('text-primary');
+    img.setAttribute('fill', '#f43f5e');
+    img.classList.add('text-danger');
     img.onload = () => {
       ctx.drawImage(img, x - r + padding / 2, y - r + padding / 2, r * 2 - padding, r * 2 - padding);
     }
-    img.src = 'assets/icons/broadcast.svg';
+    img.src = 'assets/icons/chart-icon.svg';
     ctx.stroke();
 
     // draw text
