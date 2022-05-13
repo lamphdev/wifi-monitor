@@ -35,7 +35,7 @@
                         {{row.param.name}}
                     </td>
                     <td>
-                        <a href="" nz-typography>{{row.param.mac_address || '--'}}</a>
+                        {{row.param.mac_address || '--'}}
                     </td>
                     <td>{{row.param.ip_address || '--'}}</td>
                     <td>{{row.param.interface || '--'}}</td>
@@ -54,7 +54,7 @@
             <tr *ngFor="let row of devices | deviceFilter: keySearch">
                 <td>{{row.param.name}}</td>
                 <td>
-                    <a href="" nz-typography>{{row.param.mac_address || '--'}}</a>
+                    {{row.param.mac_address || '--'}}
                 </td>
                 <td>{{row.param.ip_address || '--'}}</td>
                 <td>{{row.param.interface || '--'}}</td>

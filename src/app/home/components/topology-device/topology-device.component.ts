@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Pipe, PipeTransform } from '@angular/core';
-import { map, Observable, take } from 'rxjs';
+import { map, Observable, take, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DeviceService } from '../../services/device.service';
 import { MqttEventService } from '../../services/mqtt-event.service';
@@ -40,6 +40,7 @@ export class TopologyDeviceComponent implements OnInit {
     const topic = `${environment.mqttTopic.GET_DEVICE}/${this.path}/${this.mqttEvent.currentSession}`;
     this.devices$ = this.mqttEvent.subscribe(topic).pipe(
       map(data => JSON.parse(data.payload.toString())),
+      tap(data => console.log('received: ' , data)),
       take(1)
     );
 
