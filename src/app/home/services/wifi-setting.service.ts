@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { defer, Observable } from 'rxjs';
+import { defer, Observable, take } from 'rxjs';
 import { MqttClientService } from './mqtt-client.service';
 
 const DEVICE = 'VTGR2A27E658';
@@ -36,7 +36,8 @@ export class WifiSettingService {
           this.mqttClient.publish(WIFI_GENERAL_TOPIC, payload).subscribe();
           // this.mqttClient.publish(WIFI_GENERAL_TOPIC + '/' + sessionId, type == '2_4ghz'? res_2_4ghz : res5ghz).subscribe() //remove it
         }, 100);
-      })
+      }),
+      take(1)
     );  
   }
 
@@ -61,7 +62,8 @@ export class WifiSettingService {
           console.log("general publish", WIFI_GENERAL_TOPIC, JSON.stringify(payload));
           this.mqttClient.publish(WIFI_GENERAL_TOPIC, payload).subscribe();
         }, 100);
-      })
+      }),
+      take(1)
     );
 
   }
