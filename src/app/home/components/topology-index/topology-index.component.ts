@@ -5,48 +5,15 @@ import { ChartNode } from 'src/app/shared/model/chart-node';
 import { environment } from 'src/environments/environment';
 import { MqttEventService } from '../../services/mqtt-event.service';
 
-// const fakeChartData: ChartNode[] = [
-//   {
-//     text: 'Internet',
-//     children: [
-//       {
-//         text: 'Moderm 1',
-//         speedUp: 23,
-//         speedDown: 44,
-//         type: 'ethernet',
-//         children: [
-//           {
-//             text: 'Pc 01',
-//             type: 'ethernet',
-//             speedDown: 30.51,
-//             speedUp: 65.63
-//           },
-//           {
-//             text: 'Iphone',
-//             type: 'wifi',
-//             speedDown: 44.56,
-//             speedUp: 75.23
-//           },
-//           {
-//             text: 'Tablet',
-//             type: 'wifi',
-//             speedDown: 42.02,
-//             speedUp: 22.13
-//           }
-//         ]
-//       }
-//     ]
-//   }
-// ];
 
 @Pipe({name: 'apfilter'})
 export class ApFilterPipe implements PipeTransform {
   transform(value: any[], ...args: any[]) {
     const keyword = args[0] as string;
     return value.filter(el => {
-      return el.param.manufacturer?.toLowerCase().includes(keyword) ||
-        el.param.product_class?.toLowerCase().includes(keyword) ||
-        el.param.serial_number?.toLowerCase().includes(keyword) 
+      return !el.param.manufacturer || el.param.manufacturer?.toLowerCase().includes(keyword) ||
+        !el.param.product_class || el.param.product_class?.toLowerCase().includes(keyword) ||
+        !el.param.serial_number ||  el.param.serial_number?.toLowerCase().includes(keyword) 
     })
   }
 }
@@ -82,13 +49,13 @@ export class TopologyIndexComponent implements OnInit {
     console.log(topic);
     this.apData$ = this.mqttClient.subscribe(topic).pipe(
       map(data => JSON.parse(data.payload.toString())),
-      tap(data => console.log(data.objects)),
+      tap(data => console.log(JSON.stringify(data))),
       tap(data => this.buildChartTree(data?.objects)),
       take(1)
     );
     // const request = {
     //   "from": this.mqttClient.currentSession,
-    //   "to": "VTGR2A27E658",
+    //   "to": this.path,
     //   "id": 2,
     //   "type": "get",
     //   "objects": [
@@ -123,8 +90,7 @@ export class TopologyIndexComponent implements OnInit {
       ...dataNode,
       text: dataNode.param.product_class,
       type: dataNode.param.backhaul_link,
-      speedUp: Math.random() * 100,
-      speedDown: Math.random() * 100,
+      mac_address: dataNode.param.mac_address,
       children: children.map(child => this.findChild(child, source))
     }
   }

@@ -42,7 +42,22 @@ export class TopologyDeviceComponent implements OnInit {
       map(data => JSON.parse(data.payload.toString())),
       take(1)
     );
-    this.mqttEvent.fakeDataDevice(topic);
+
+    const payload = {
+      "from": this.mqttEvent.currentSession,
+      "to": this.path,
+      "id": 6,
+      "type": "get",
+      "objects": [
+        {
+          "name": "host",
+          "params": []
+        }
+      ]
+    };
+    this.mqttEvent.publish(`${environment.mqttTopic.GET_DEVICE}/${this.path}`, JSON.stringify(payload));
+
+    // this.mqttEvent.fakeDataDevice(topic);
   }
 
 }
