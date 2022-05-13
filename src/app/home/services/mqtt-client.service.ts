@@ -20,7 +20,7 @@ export class MqttClientService {
       }),
       map((val) => {
         console.log('recived from: ' + topic, val);
-        return val
+        return val;
       })
     );
   }
