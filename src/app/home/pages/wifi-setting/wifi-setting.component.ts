@@ -41,6 +41,7 @@ export class WifiSettingComponent implements OnInit {
     "SECURITY_MODE": [
       "WPA",
       "WPA2",
+      "WPA2PSK",
       "WPA3",
     ]
   };

@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { defer, Observable } from 'rxjs';
 import { MqttClientService } from './mqtt-client.service';
 
-const WIFI_GENERAL_TOPIC = "vht/mesh/demo/VTGR2A27E658";
+const DEVICE = 'VTGR2A27E658';
+const WIFI_GENERAL_TOPIC = 'vht/mesh/demo/' + DEVICE;
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +14,10 @@ export class WifiSettingService {
   constructor(private mqttClient: MqttClientService) { }
 
   getWifiSetting(type: '2_4ghz' | '5ghz', sessionId: string): Observable<any> {
+    sessionId = type + '_' +  sessionId.split('-')[0];
     var payload = {
       "from": sessionId,
-      "to": "VTGR2A27E658",
+      "to": DEVICE,
       "id": type === '2_4ghz' ? 4 : 5,
       "type": "get",
       "objects": [
@@ -30,19 +32,19 @@ export class WifiSettingService {
     return this.mqttClient.connect(WIFI_GENERAL_TOPIC + '/' + sessionId).pipe(
       doOnSubscribe(() => {
         setTimeout(() => {
-          console.log("wifi" + type + " publish ", WIFI_GENERAL_TOPIC, payload);
+          console.log("wifi" + type + " publish ", WIFI_GENERAL_TOPIC, JSON.stringify(payload));
           this.mqttClient.publish(WIFI_GENERAL_TOPIC, payload).subscribe();
-          this.mqttClient.publish(WIFI_GENERAL_TOPIC + '/' + sessionId, type == '2_4ghz'? res_2_4ghz : res5ghz).subscribe() //remove it
+          // this.mqttClient.publish(WIFI_GENERAL_TOPIC + '/' + sessionId, type == '2_4ghz'? res_2_4ghz : res5ghz).subscribe() //remove it
         }, 100);
       })
     );  
   }
 
   getGeneralSetting(sessionId: string): Observable<any> {
-
+    sessionId = 'general_' + sessionId.split('-')[0];
     var payload = {
       "from": sessionId,
-      "to": "VTGR2A27E658",
+      "to": DEVICE,
       "id": 3,
       "type": "get",
       "objects": [
@@ -58,7 +60,6 @@ export class WifiSettingService {
         setTimeout(() => {
           console.log("general publish", WIFI_GENERAL_TOPIC, JSON.stringify(payload));
           this.mqttClient.publish(WIFI_GENERAL_TOPIC, payload).subscribe();
-          this.mqttClient.publish(WIFI_GENERAL_TOPIC + '/' + sessionId, generalResponse).subscribe() //remove it
         }, 100);
       })
     );
@@ -69,7 +70,7 @@ export class WifiSettingService {
 
     let payload = {
       "from": sessionId,
-      "to": "VTGR2A27E658",
+      "to": DEVICE,
       "id": 3,
       "type": "set",
       "objects": [
@@ -97,7 +98,7 @@ export class WifiSettingService {
 
     let payload = {
       "from": sessionId,
-      "to": "VTGR2A27E658",
+      "to": DEVICE,
       "id": '2_4ghz' ? 4 : 5,
       "type": "set",
       "objects": [
@@ -132,7 +133,7 @@ export function doOnSubscribe<T>(onSubscribe: () => void): (source: Observable<T
 }
 
 let res_2_4ghz: any = {
-  "from": "VTGR2A27E658",
+  "from": DEVICE,
   "to": "02c29d2a-dbfd-2d91-99c9-306d537e9856",
   "id": 4,
   "type": "get_response",
@@ -151,7 +152,7 @@ let res_2_4ghz: any = {
   ]
 }
 let res5ghz: any = {
-  "from": "VTGR2A27E658",
+  "from": DEVICE,
   "to": "02c29d2a-dbfd-2d91-99c9-306d537e9856",
   "id": 5,
   "type": "get_response",
@@ -171,7 +172,7 @@ let res5ghz: any = {
 }
 
 var generalResponse = {
-  "from": "VTGR2A27E658",
+  "from": DEVICE,
   "to": "02c29d2a-dbfd-2d91-99c9-306d537e9856",
   "id": 3,
   "type": "get_response",
