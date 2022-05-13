@@ -53,21 +53,21 @@ export class TopologyIndexComponent implements OnInit {
       tap(data => this.buildChartTree(data?.objects)),
       take(1)
     );
-    // const request = {
-    //   "from": this.mqttClient.currentSession,
-    //   "to": this.path,
-    //   "id": 2,
-    //   "type": "get",
-    //   "objects": [
-    //     {
-    //       "name": "ap",
-    //       "instance": 2,
-    //       "params": []
-    //     }
-    //   ]
-    // };
-    // this.mqttClient.publish(`${this.GET_AP_TOPIC}/${this.path}`, JSON.stringify(request));
-    this.mqttClient.fakeResponse(topic);
+    const request = {
+      "from": this.mqttClient.currentSession,
+      "to": this.path,
+      "id": 2,
+      "type": "get",
+      "objects": [
+        {
+          "name": "ap",
+          "instance": 2,
+          "params": []
+        }
+      ]
+    };
+    this.mqttClient.publish(`${this.GET_AP_TOPIC}/${this.path}`, JSON.stringify(request));
+    //this.mqttClient.fakeResponse(topic);
   }
 
   async buildChartTree(data: any[]): Promise<any> {
