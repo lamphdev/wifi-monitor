@@ -9,25 +9,42 @@
         <nz-form-item>
             <nz-form-label [nzSpan]="7" nzFor="mode">Mode</nz-form-label>
             <nz-form-control [nzSpan]="12">
-                <input id="mode" type="text" nz-input formControlName="mode" />
+                <nz-select id="mode" formControlName="mode">
+                    <ng-container *ngFor="let item of common_config[type].mode">
+                        <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
+                    </ng-container>
+                </nz-select>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
             <nz-form-label [nzSpan]="7" nzFor="channel">Channel</nz-form-label>
             <nz-form-control [nzSpan]="12">
-                <input id="channel" type="text" nz-input formControlName="channel" />
+                <nz-select id="channel" formControlName="channel">
+                    <nz-option nzValue="Auto" nzLabel="Auto"></nz-option>
+                    <ng-container *ngFor="let item of common_config[type].chanel">
+                        <nz-option [nzValue]="item" [nzLabel]="'Channel ' + item"></nz-option>
+                    </ng-container>
+                </nz-select>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
             <nz-form-label [nzSpan]="7" nzFor="band_wide">Band wide</nz-form-label>
             <nz-form-control [nzSpan]="12">
-                <input id="band_wide" type="text" nz-input formControlName="band_wide" />
+                <nz-select id="band_wide" formControlName="band_wide">
+                    <ng-container *ngFor="let item of common_config[type].band_wide">
+                        <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
+                    </ng-container>
+                </nz-select>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
-            <nz-form-label [nzSpan]="7" nzFor="power">Power</nz-form-label>
+            <nz-form-label [nzSpan]="7" nzFor="power">Power (%)</nz-form-label>
             <nz-form-control [nzSpan]="12">
-                <input id="power" type="text" nz-input formControlName="power" />
+                <nz-select id="power" formControlName="power">
+                    <ng-container *ngFor="let item of common_config[type].power">
+                        <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
+                    </ng-container>
+                </nz-select>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>

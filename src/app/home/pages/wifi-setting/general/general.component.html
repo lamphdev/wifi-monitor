@@ -17,7 +17,7 @@
             <nz-form-control [nzSpan]="12">
                 <nz-select id="security_mode" formControlName="security_mode">
                     <ng-container *ngFor="let item of common_config.SECURITY_MODE">
-                        <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
+                        <nz-option [nzValue]="item.value" [nzLabel]="item.value" [nzDisabled]="item.disable"></nz-option>
                     </ng-container>
                 </nz-select>
             </nz-form-control>
@@ -27,7 +27,7 @@
             <nz-form-control [nzSpan]="12">
                 <nz-select id="encrypt_mode" formControlName="encrypt_mode">
                     <ng-container *ngFor="let item of common_config.ENCRYPT_MODE">
-                        <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
+                        <nz-option [nzValue]="item.value" [nzLabel]="item.value" [nzDisabled]="item.disable"></nz-option>
                     </ng-container>
                 </nz-select>
             </nz-form-control>
