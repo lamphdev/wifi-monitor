@@ -56,12 +56,11 @@ export class TopologyIndexComponent implements OnInit {
     const request = {
       "from": this.mqttClient.currentSession,
       "to": this.path,
-      "id": 2,
+      "id": 1,
       "type": "get",
       "objects": [
         {
           "name": "ap",
-          "instance": 1,
           "params": []
         }
       ]
