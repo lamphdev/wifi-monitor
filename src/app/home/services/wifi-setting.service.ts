@@ -1,23 +1,33 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { defer, Observable, take } from 'rxjs';
 import { MqttClientService } from './mqtt-client.service';
 
-const DEVICE = 'VTGR2A27E658';
-const WIFI_GENERAL_TOPIC = 'vht/mesh/demo/' + DEVICE;
+const DEFAULT_DEVICE = 'VTGR2A27E658';
+// const this.getTopic() = 'vht/mesh/demo/' + DEVICE;
 
 @Injectable({
   providedIn: 'root'
 })
 export class WifiSettingService {
 
-  constructor(private mqttClient: MqttClientService) { }
+  constructor(private mqttClient: MqttClientService, private router: Router) { }
+
+  getDevice() {
+    let url = this.router.url.split('/');
+    return url[2] || DEFAULT_DEVICE;
+  }
+
+  getTopic() {
+    return 'vht/mesh/demo/' + this.getDevice();
+  }
 
   getWifiSetting(type: '2_4ghz' | '5ghz', sessionId: string): Observable<any> {
     // sessionId = type + '_' +  sessionId.split('-')[0];
     var payload = {
       "from": sessionId,
-      "to": DEVICE,
+      "to": this.getDevice(),
       "id": type === '2_4ghz' ? 4 : 5,
       "type": "get",
       "objects": [
@@ -28,24 +38,24 @@ export class WifiSettingService {
       ]
     }
 
-    console.log("wifi" + type + " subscribe ", WIFI_GENERAL_TOPIC + "/" + sessionId);
-    return this.mqttClient.connect(WIFI_GENERAL_TOPIC + '/' + sessionId).pipe(
+    console.log("wifi" + type + " subscribe ", this.getTopic() + "/" + sessionId);
+    return this.mqttClient.connect(this.getTopic() + '/' + sessionId).pipe(
       doOnSubscribe(() => {
         setTimeout(() => {
-          console.log("wifi" + type + " publish ", WIFI_GENERAL_TOPIC, JSON.stringify(payload));
-          this.mqttClient.publish(WIFI_GENERAL_TOPIC, payload).subscribe();
-          // this.mqttClient.publish(WIFI_GENERAL_TOPIC + '/' + sessionId, type == '2_4ghz'? res_2_4ghz : res5ghz).subscribe() //remove it
+          console.log("wifi" + type + " publish ", this.getTopic(), JSON.stringify(payload));
+          this.mqttClient.publish(this.getTopic(), payload).subscribe();
+          // this.mqttClient.publish(this.getTopic() + '/' + sessionId, type == '2_4ghz'? res_2_4ghz : res5ghz).subscribe() //remove it
         }, 100);
       }),
       take(1)
-    );  
+    );
   }
 
   getGeneralSetting(sessionId: string): Observable<any> {
     // sessionId = 'general_' + sessionId.split('-')[0];
     var payload = {
       "from": sessionId,
-      "to": DEVICE,
+      "to": this.getDevice(),
       "id": 3,
       "type": "get",
       "objects": [
@@ -55,12 +65,12 @@ export class WifiSettingService {
         }
       ]
     }
-    console.log("general subcrible " , WIFI_GENERAL_TOPIC + "/" + sessionId);
-    return this.mqttClient.connect(WIFI_GENERAL_TOPIC + '/' + sessionId).pipe(
+    console.log("general subcrible ", this.getTopic() + "/" + sessionId);
+    return this.mqttClient.connect(this.getTopic() + '/' + sessionId).pipe(
       doOnSubscribe(() => {
         setTimeout(() => {
-          console.log("general publish", WIFI_GENERAL_TOPIC, JSON.stringify(payload));
-          this.mqttClient.publish(WIFI_GENERAL_TOPIC, payload).subscribe();
+          console.log("general publish", this.getTopic(), JSON.stringify(payload));
+          this.mqttClient.publish(this.getTopic(), payload).subscribe();
         }, 100);
       }),
       take(1)
@@ -74,7 +84,7 @@ export class WifiSettingService {
 
     let payload = {
       "from": sessionId,
-      "to": DEVICE,
+      "to": this.getDevice(),
       "id": 3,
       "type": "set",
       "objects": [
@@ -90,11 +100,11 @@ export class WifiSettingService {
       ]
     }
 
-    console.log("setting general subcrible " , WIFI_GENERAL_TOPIC + "/" + sessionId);
-    return this.mqttClient.connect(WIFI_GENERAL_TOPIC + '/' + sessionId).pipe(
+    console.log("setting general subcrible ", this.getTopic() + "/" + sessionId);
+    return this.mqttClient.connect(this.getTopic() + '/' + sessionId).pipe(
       doOnSubscribe(() => {
-        console.log("setting general publish", WIFI_GENERAL_TOPIC, payload);
-        this.mqttClient.publish(WIFI_GENERAL_TOPIC, payload).subscribe();
+        console.log("setting general publish", this.getTopic(), payload);
+        this.mqttClient.publish(this.getTopic(), payload).subscribe();
       })
     );
   }
@@ -105,7 +115,7 @@ export class WifiSettingService {
 
     let payload = {
       "from": sessionId,
-      "to": DEVICE,
+      "to": this.getDevice(),
       "id": '2_4ghz' ? 4 : 5,
       "type": "set",
       "objects": [
@@ -120,28 +130,28 @@ export class WifiSettingService {
         }
       ]
     }
-    console.log("setting wifi subcrible" , WIFI_GENERAL_TOPIC + "/" + sessionId);
-    return this.mqttClient.connect(WIFI_GENERAL_TOPIC + '/' + sessionId).pipe(
+    console.log("setting wifi subcrible", this.getTopic() + "/" + sessionId);
+    return this.mqttClient.connect(this.getTopic() + '/' + sessionId).pipe(
       doOnSubscribe(() => {
-        console.log("setting wifi publish", WIFI_GENERAL_TOPIC, payload);
-        this.mqttClient.publish(WIFI_GENERAL_TOPIC, payload).subscribe();
+        console.log("setting wifi publish", this.getTopic(), payload);
+        this.mqttClient.publish(this.getTopic(), payload).subscribe();
       })
-    );  
+    );
   }
 
 }
 
-export function doOnSubscribe<T>(onSubscribe: () => void): (source: Observable<T>) =>  Observable<T> {
+export function doOnSubscribe<T>(onSubscribe: () => void): (source: Observable<T>) => Observable<T> {
   return function inner(source: Observable<T>): Observable<T> {
-      return defer(() => {
-        onSubscribe();
-        return source;
-      });
+    return defer(() => {
+      onSubscribe();
+      return source;
+    });
   };
 }
 
 let res_2_4ghz: any = {
-  "from": DEVICE,
+  "from": DEFAULT_DEVICE,
   "to": "02c29d2a-dbfd-2d91-99c9-306d537e9856",
   "id": 4,
   "type": "get_response",
@@ -160,7 +170,7 @@ let res_2_4ghz: any = {
   ]
 }
 let res5ghz: any = {
-  "from": DEVICE,
+  "from": DEFAULT_DEVICE,
   "to": "02c29d2a-dbfd-2d91-99c9-306d537e9856",
   "id": 5,
   "type": "get_response",
@@ -180,7 +190,7 @@ let res5ghz: any = {
 }
 
 var generalResponse = {
-  "from": DEVICE,
+  "from": DEFAULT_DEVICE,
   "to": "02c29d2a-dbfd-2d91-99c9-306d537e9856",
   "id": 3,
   "type": "get_response",

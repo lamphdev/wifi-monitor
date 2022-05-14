@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'topology',
     component: TopologyComponent
+  },
+  {
+    path: 'topology/:id',
+    component: TopologyComponent
   }
 ];
 

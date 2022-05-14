@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -12,7 +13,7 @@ type TabType = 'index' | 'devices';
   templateUrl: './topology.component.html',
   styleUrls: ['./topology.component.scss']
 })
-export class TopologyComponent implements OnInit , OnDestroy{
+export class TopologyComponent implements OnInit, OnDestroy {
 
   rateType = 'none';
   tab: TabType = 'index';
@@ -21,9 +22,12 @@ export class TopologyComponent implements OnInit , OnDestroy{
   apData$: Observable<any>;
   unsubscribe$ = new Subject<void>();
 
-  constructor(private modal: NzModalService, private mqttClient: MqttEventService) { }
+  constructor(private modal: NzModalService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe((p: any) => {
+      this.topo = p.id || this.topo
+    })
   }
 
   ngOnDestroy(): void {
