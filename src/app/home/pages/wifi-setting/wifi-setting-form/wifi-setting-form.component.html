@@ -1,38 +1,40 @@
-<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" autocomplete="off">
-    <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="enable">Enable</nz-form-label>
-        <nz-form-control [nzSpan]="12">
-            <nz-switch id="enable" formControlName="enable"></nz-switch>
-        </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="mode">Mode</nz-form-label>
-        <nz-form-control [nzSpan]="12">
-            <input id="mode" type="text" nz-input formControlName="mode" />
-        </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="channel">Channel</nz-form-label>
-        <nz-form-control [nzSpan]="12">
-            <input id="channel" type="text" nz-input formControlName="channel" />
-        </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="band_wide">Band wide</nz-form-label>
-        <nz-form-control [nzSpan]="12">
-            <input id="band_wide" type="text" nz-input formControlName="band_wide" />
-        </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="power">Power</nz-form-label>
-        <nz-form-control [nzSpan]="12">
-            <input id="power" type="text" nz-input formControlName="power" />
-        </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-        <nz-form-control [nzSpan]="12" [nzOffset]="14">
-            <button nz-button nzType="default" type="button" (click)="doClose()">Cancel</button>
-            <button nz-button nzType="primary">Save</button>
-        </nz-form-control>
-    </nz-form-item>
-</form>
+<nz-spin nzTip="Loading..." [nzSpinning]="loading">
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" autocomplete="off">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzFor="enable">Enable</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+                <nz-switch id="enable" formControlName="enable"></nz-switch>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzFor="mode">Mode</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+                <input id="mode" type="text" nz-input formControlName="mode" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzFor="channel">Channel</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+                <input id="channel" type="text" nz-input formControlName="channel" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzFor="band_wide">Band wide</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+                <input id="band_wide" type="text" nz-input formControlName="band_wide" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzFor="power">Power</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+                <input id="power" type="text" nz-input formControlName="power" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control [nzSpan]="12" [nzOffset]="14">
+                <button nz-button nzType="default" type="button" (click)="doClose()">Cancel</button>
+                <button nz-button nzType="primary">Save</button>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</nz-spin>

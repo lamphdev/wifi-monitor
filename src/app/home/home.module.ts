@@ -24,7 +24,7 @@ import { DeviceFilterPipe, TopologyDeviceComponent } from './components/topology
 import { LayoutService } from '../layout/layout.service';
 import { MqttModule } from 'ngx-mqtt';
 import { ApChartDirective } from './directive/ap-chart.directive';
-
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @NgModule({
   declarations: [
@@ -54,6 +54,7 @@ import { ApChartDirective } from './directive/ap-chart.directive';
     NzSelectModule,
     NzButtonModule,
     NzInputModule,
+    NzSpinModule,
     NzSwitchModule
   ],
 })

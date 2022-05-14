@@ -16,6 +16,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
   passwordVisible = false;
   chanels = [1, 2, 3, 4, 5];
   sessionId: string;
+  loading = true;
 
   subcribles = new Set<Subscription>();
 
@@ -47,14 +48,16 @@ export class GeneralComponent implements OnInit, OnDestroy {
         encrypt_mode: data.encrypt_mode,
         enable: data.enable === 1,
       });
+      this.loading = false;
     })
     this.subcribles.add(sub);
   }
 
   submitForm(): void {
-
+    this.loading = true;
     let sub = this.wifiSettingService.settingGeneral(this.validateForm.value, this.sessionId)
       .subscribe(res => {
+        this.loading = false;
         if (res.errors?.length) {
           let ref = this.modal.error({
             nzContent: res.errors

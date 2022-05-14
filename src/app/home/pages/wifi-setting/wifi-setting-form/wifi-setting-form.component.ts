@@ -21,6 +21,8 @@ export class WifiSettingFormComponent implements OnInit, OnDestroy {
 
   sessionId: string;
 
+  loading = true;
+
   constructor(
     private fb: FormBuilder,
     @Inject(WifiSettingComponent) private parent: WifiSettingComponent,
@@ -50,15 +52,16 @@ export class WifiSettingFormComponent implements OnInit, OnDestroy {
           band_wide: data.band_wide,
           power: data.power,
         });
+        this.loading = false;
       })
     this.subcribles.add(sub);
   }
 
   submitForm(): void {
-
+    this.loading = true;
     let sub = this.wifiSettingService.settingWifi(this.type, this.validateForm.value, this.sessionId)
       .subscribe(res => {
-
+        this.loading = false;
         if (res.errors?.length) {
           let ref = this.modal.error({
             nzContent: res.errors
