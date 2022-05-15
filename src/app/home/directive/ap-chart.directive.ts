@@ -110,11 +110,16 @@ export class ApChartDirective implements OnInit, OnChanges {
     const x = stepX * (level);
     let y = stepY * this.memoMap[level];
     // handle level
+    const mapByLevel = this.mapLevel;
     if (level >= 4) {
       y = joiny;
     }
 
     ctx.beginPath();
+    ctx.imageSmoothingEnabled = true;
+    (ctx as any).webkitImageSmoothingEnabled = false;
+    (ctx as any).mozImageSmoothingEnabled = false;
+    (ctx as any).imageSmoothingEnabled = false;
     ctx.setLineDash([]);
     ctx.strokeStyle = '#f43f5e';
     ctx.fillStyle = '#f43f5e';
@@ -125,8 +130,7 @@ export class ApChartDirective implements OnInit, OnChanges {
     // draw node icon
     ctx.beginPath();
     const img = new Image();
-    img.setAttribute('fill', '#f43f5e');
-    img.classList.add('text-danger');
+
     img.onload = () => {
       ctx.drawImage(img, x - r + padding / 2, y - r + padding / 2, r * 2 - padding, r * 2 - padding);
     }
@@ -134,14 +138,14 @@ export class ApChartDirective implements OnInit, OnChanges {
     ctx.stroke();
 
     // draw text
-    const fontSize = 13;
+    const fontSize = 14;
     ctx.beginPath();
     ctx.setLineDash([]);
-    ctx.font = `${13}px Sans`;
+    ctx.font = `${fontSize}px Roboto Slab`;
     ctx.textAlign = 'center';
-    ctx.strokeText(data.text, x , y + r + fontSize + 2);
+    ctx.fillText(data.text, x , y + r + fontSize + 2);
     if (level !== 1) { // Level  = 1 (Internet) not have mac address
-      ctx.strokeText(data.mac_address || '--', x, y + r + fontSize * 2 + 2);
+      ctx.fillText(data.mac_address || '--', x, y + r + fontSize * 2 + 2);
     }
     ctx.stroke(); 
 
@@ -175,7 +179,7 @@ export class ApChartDirective implements OnInit, OnChanges {
 
       // draw connection
       ctx.beginPath();
-      if (data.type?.startsWith('wifi')) {
+      if (data.type?.startsWith('wi_fi')) {
         ctx.setLineDash([5, 3]);
       }
       ctx?.moveTo(fromX, fromY);
@@ -194,7 +198,7 @@ export class ApChartDirective implements OnInit, OnChanges {
       const angle = Math.atan2(dy, dx);
 
       ctx.beginPath();
-      if (data.type?.startsWith('wifi')) {
+      if (data.type?.startsWith('wi_fi')) {
         ctx.setLineDash([5, 3]);
       }
       ctx.moveTo(fromX, fromY);
@@ -225,28 +229,27 @@ export class ApChartDirective implements OnInit, OnChanges {
     // ctx.strokeText(`▼: ${data.speedDown?.toFixed(2) || '--'} kbit/s`, x, y + 15 + 2);
     // ctx.stroke();
 
-    ctx.setLineDash([]);
-    ctx.font = '15px Sans'
-    if (data.type?.startsWith('wifi')){
-      const iconSize = 13;
-      // draw icon wifi
-      ctx.beginPath();
-      const icon = `/assets/icons/${data.type === 'wifi5' ? 'wifi5.svg' : 'wifi2_4.svg'}`;
-      const image = new Image();
-      image.onload = () => {
-        ctx.drawImage(image, x, y - iconSize - 5, iconSize, iconSize);
-      }
-      image.src = icon;
-      ctx?.stroke();
+    // ctx.setLineDash([]);
+    // if (data.type?.startsWith('wifi')){
+    //   const iconSize = 13;
+    //   // draw icon wifi
+    //   ctx.beginPath();
+    //   const icon = `/assets/icons/${data.type === 'wifi5' ? 'wifi5.svg' : 'wifi2_4.svg'}`;
+    //   const image = new Image();
+    //   image.onload = () => {
+    //     ctx.drawImage(image, x, y - iconSize - 5, iconSize, iconSize);
+    //   }
+    //   image.src = icon;
+    //   ctx?.stroke();
 
       // draw type wifi
-      ctx.beginPath();
-      const text = data.type === 'wifi5' ? '5G' : '2.4G';
-      ctx.textAlign = 'left';
-      ctx.strokeStyle = data.type === 'wifi5' ? '#16a34a' : '#d97706';
-      ctx.strokeText(text, x + iconSize + 2, y - 5);
-      ctx.stroke();
-    }
+      // ctx.beginPath();
+      // const text = data.type === 'wifi5' ? '5G' : '2.4G';
+      // ctx.textAlign = 'left';
+      // ctx.strokeStyle = data.type === 'wifi5' ? '#16a34a' : '#d97706';
+      // ctx.strokeText(text, x + iconSize + 2, y - 5);
+      // ctx.stroke();
+    //}
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { debounceTime, map, Observable, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { catchError, debounceTime, finalize, map, Observable, Subject, switchMap, take, takeUntil, tap, throwError, timeout, TimeoutError } from 'rxjs';
 import { ChartNode } from 'src/app/shared/model/chart-node';
 import { environment } from 'src/environments/environment';
 import { MqttEventService } from '../../services/mqtt-event.service';
@@ -30,12 +31,13 @@ export class TopologyIndexComponent implements OnInit {
   searchResult: any[];
   chartData: ChartNode[] = [];
   GET_AP_TOPIC = environment.mqttTopic.GET_AP;
-  loading = true;
+  loading = false;
 
   searchString = '';
   searchControl = new FormControl('');
 
-  constructor(private mqttClient: MqttEventService) { }
+  constructor(private mqttClient: MqttEventService,
+    private noti: NzNotificationService) { }
 
   ngOnInit(): void {
     this.mqttClient.newSession();
@@ -46,16 +48,24 @@ export class TopologyIndexComponent implements OnInit {
    * subscribe ap info from mqtt
    */
   subscribeAp(): void {
+    this.loading = true;
     const topic = `${this.GET_AP_TOPIC}/${this.path}/${this.mqttClient.currentSession}`;
     console.log(topic);
     this.apData$ = this.mqttClient.subscribe(topic).pipe(
+      timeout(environment.mqttTimeOut),
       map(data => JSON.parse(data.payload.toString())),
       tap(data => {
-        console.log(JSON.stringify(data));
-        this.loading = false
+        console.log(`received: ${JSON.stringify(data)}`);
       }),
       tap(data => this.buildChartTree(data?.objects)),
-      take(1)
+      take(1),
+      catchError((e: any) => {
+        if (e instanceof TimeoutError) {
+          this.noti.error('Error', environment.timoutMessage);
+        }
+        return throwError(() => e);
+      }),
+      finalize(() => this.loading = false)
     );
     const request = {
       "from": this.mqttClient.currentSession,
@@ -69,8 +79,10 @@ export class TopologyIndexComponent implements OnInit {
         }
       ]
     }
-    this.mqttClient.publish(`${this.GET_AP_TOPIC}/${this.path}`, JSON.stringify(request));
-    // this.mqttClient.fakeResponse(topic);
+    const payloadPublish = JSON.stringify(request);
+    console.log(`publish ${payloadPublish}`)
+    this.mqttClient.publish(`${this.GET_AP_TOPIC}/${this.path}`, payloadPublish);
+    //this.mqttClient.fakeResponse(topic);
   }
 
   async buildChartTree(data: any[]): Promise<any> {

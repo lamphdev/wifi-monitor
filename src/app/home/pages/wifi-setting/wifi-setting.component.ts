@@ -41,7 +41,7 @@ export class WifiSettingComponent implements OnInit {
         'G only',
         'G/N mixed',
         'B/G mixed',
-        'B/N/G mixed'
+        'B/G/N mixed'
       ],
       band_wide: [
         '20MHz',

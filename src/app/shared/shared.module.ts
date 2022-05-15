@@ -12,6 +12,8 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
 const antdModules = [
   NzLayoutModule,
@@ -24,7 +26,9 @@ const antdModules = [
   NzTypographyModule,
   NzTableModule,
   NzSelectModule,
-  NzModalModule
+  NzModalModule,
+  NzSpinModule,
+  NzNotificationModule
 ]
 
 @NgModule({

@@ -10,6 +10,8 @@ export const environment = {
     protocol: 'ws',
     path: '/mqtt'
   },
+  mqttTimeOut: 15000,
+  timoutMessage: 'Device is not responding, please try again later',
   mqttTopic: {
     GET_AP: 'vht/mesh/demo',
     GET_DEVICE: 'vht/mesh/demo'

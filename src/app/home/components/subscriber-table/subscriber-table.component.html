@@ -20,7 +20,7 @@
             <td>{{i + 1}}</td>
             <td>{{subscriber.broadbrand_account}}</td>
             <td>
-                <a nz-typography routerLink="/topology">{{subscriber.mac_adress}}</a>
+                <a nz-typography [routerLink]="['topology', subscriber.gateway_sn]">{{subscriber.mac_adress}}</a>
             </td>
             <td>{{subscriber.gateway_sn}}</td>
             <td>{{subscriber.gateway_alias || '--'}}</td>

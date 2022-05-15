@@ -32,6 +32,7 @@
     <div class="mt-3">
         <app-device-table 
             [groupBy]="groupBy"
+            [loading]="loading"
             [devices]="(devices$|async)?.objects || []">
         </app-device-table>
     </div>

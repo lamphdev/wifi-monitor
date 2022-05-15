@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Pipe, PipeTransform } from '@angular/core';
-import { map, Observable, take, tap } from 'rxjs';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { catchError, finalize, map, Observable, take, tap, throwError, timeout, TimeoutError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DeviceService } from '../../services/device.service';
 import { MqttEventService } from '../../services/mqtt-event.service';
@@ -29,7 +30,9 @@ export class TopologyDeviceComponent implements OnInit {
   devices$: Observable<any>;
   loading = false;
 
-  constructor(private deviceService: DeviceService, private mqttEvent: MqttEventService) { }
+  constructor(private deviceService: DeviceService, 
+    private noti: NzNotificationService,
+    private mqttEvent: MqttEventService) { }
 
   ngOnInit(): void {
     this.mqttEvent.newSession();
@@ -37,11 +40,21 @@ export class TopologyDeviceComponent implements OnInit {
   }
 
   subscribeFromMqtt(): void {
+    this.loading = true;
     const topic = `${environment.mqttTopic.GET_DEVICE}/${this.path}/${this.mqttEvent.currentSession}`;
     this.devices$ = this.mqttEvent.subscribe(topic).pipe(
+      timeout(environment.mqttTimeOut),
       map(data => JSON.parse(data.payload.toString())),
-      tap(data => console.log('received: ' , data)),
-      take(1)
+      tap(data => console.log(`received: ${JSON.stringify(data)}`)),
+      take(1),
+      catchError(err => {
+        if (err instanceof TimeoutError) {
+          this.noti.error('Error', environment.timoutMessage);
+          this.loading = false;
+        }
+        return throwError(() => err);
+      }),
+      finalize(() => this.loading = false)
     );
 
     const payload = {
@@ -56,7 +69,9 @@ export class TopologyDeviceComponent implements OnInit {
         }
       ]
     };
-    this.mqttEvent.publish(`${environment.mqttTopic.GET_DEVICE}/${this.path}`, JSON.stringify(payload));
+    const jsonPayload = JSON.stringify(payload);
+    console.log(`devices publish: ${jsonPayload}`);
+    this.mqttEvent.publish(`${environment.mqttTopic.GET_DEVICE}/${this.path}`, jsonPayload);
 
     // this.mqttEvent.fakeDataDevice(topic);
   }
