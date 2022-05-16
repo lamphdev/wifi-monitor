@@ -9,7 +9,7 @@ export class MqttClientService {
   constructor(private _mqttService: MqttService) {}
 
   connect(topic: string): Observable<any> {
-    return this._mqttService.observe(topic).pipe(
+    return this._mqttService.observe(topic, {qos: 1}).pipe(
       map((val) => {
         let payload = new TextDecoder().decode(val.payload);
         try {
