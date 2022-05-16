@@ -4,7 +4,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { WifiSettingService } from 'src/app/home/services/wifi-setting.service';
 import { WifiSettingComponent } from '../wifi-setting.component';
 import { v4 as uuidv4 } from 'uuid';
-import { Subscription } from 'rxjs';
+import { finalize, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-wifi-setting-form',
@@ -42,6 +42,7 @@ export class WifiSettingFormComponent implements OnInit, OnDestroy {
     });
 
     let sub = this.wifiSettingService.getWifiSetting(this.type, this.sessionId)
+      .pipe(finalize(() => this.loading = false))
       .subscribe(res => {
         let data = res.objects[0].param;
         this.validateForm.patchValue({
@@ -59,6 +60,7 @@ export class WifiSettingFormComponent implements OnInit, OnDestroy {
   submitForm(): void {
     this.loading = true;
     let sub = this.wifiSettingService.settingWifi(this.type, this.validateForm.value, this.sessionId)
+      .pipe(finalize(() => this.loading = false))
       .subscribe(res => {
         this.loading = false;
         if (res.errors?.length) {

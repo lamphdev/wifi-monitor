@@ -11,7 +11,7 @@
             <nz-form-control [nzSpan]="12">
                 <nz-select id="mode" formControlName="mode">
                     <ng-container *ngFor="let item of common_config[type].mode">
-                        <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
+                        <nz-option [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
                     </ng-container>
                 </nz-select>
             </nz-form-control>
@@ -32,7 +32,7 @@
             <nz-form-control [nzSpan]="12">
                 <nz-select id="band_wide" formControlName="band_wide">
                     <ng-container *ngFor="let item of common_config[type].band_wide">
-                        <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
+                        <nz-option [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
                     </ng-container>
                 </nz-select>
             </nz-form-control>
