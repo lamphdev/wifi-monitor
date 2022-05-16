@@ -12,8 +12,8 @@ export const subscribers = [{
   "broadbrand_account": "h004_gftth_giang_tm1",
   "bandwidth": null
 }, {
-  "mac_adress": "8F-0F-CE-24-56-71",
-  "gateway_sn": "VTGR12245671",
+  "mac_adress": "8F-0F-CE-34-56-71",
+  "gateway_sn": "VTGR12345671",
   "loid": null,
   "gateway_alias": 'hiennd2',
   "subnet_name": "Lotstring",
