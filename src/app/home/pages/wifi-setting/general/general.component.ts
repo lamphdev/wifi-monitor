@@ -1,10 +1,17 @@
-import { Component, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { WifiSettingService } from 'src/app/home/services/wifi-setting.service';
 import { WifiSettingComponent } from '../wifi-setting.component';
 import { v4 as uuidv4 } from 'uuid';
-import { Observable, Subscription } from 'rxjs';
+import { finalize, Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-general',
@@ -20,15 +27,14 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
   subcribles = new Set<Subscription>();
 
-  @Input("common_config") common_config: any = {}
+  @Input('common_config') common_config: any = {};
 
   constructor(
     private fb: FormBuilder,
     @Inject(WifiSettingComponent) private parent: WifiSettingComponent,
     private wifiSettingService: WifiSettingService,
-    private modal: NzModalService,
-  ) { }
-
+    private modal: NzModalService
+  ) {}
 
   ngOnInit(): void {
     this.sessionId = uuidv4();
@@ -39,24 +45,29 @@ export class GeneralComponent implements OnInit, OnDestroy {
       security_mode: [''],
       preshared_key: [''],
     });
-    let sub = this.wifiSettingService.getGeneralSetting(this.sessionId).subscribe(response => {
-      let data = response.objects[0].param;
-      this.validateForm.patchValue({
-        ssid: data.ssid,
-        security_mode: data.security_mode,
-        preshared_key: data.preshared_key,
-        encrypt_mode: data.encrypt_mode,
-        enable: data.enable === 1,
+    let sub = this.wifiSettingService
+      .getGeneralSetting(this.sessionId)
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe((response) => {
+        let data = response.objects[0].param;
+        this.validateForm.patchValue({
+          ssid: data.ssid,
+          security_mode: data.security_mode,
+          preshared_key: data.preshared_key,
+          encrypt_mode: data.encrypt_mode,
+          enable: data.enable === 1,
+        });
+        this.loading = false;
       });
-      this.loading = false;
-    })
     this.subcribles.add(sub);
   }
 
   submitForm(): void {
     this.loading = true;
-    let sub = this.wifiSettingService.settingGeneral(this.validateForm.value, this.sessionId)
-      .subscribe(res => {
+    let sub = this.wifiSettingService
+      .settingGeneral(this.validateForm.value, this.sessionId)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe((res) => {
         this.loading = false;
         if (res.errors?.length) {
           let ref = this.modal.error({
@@ -84,8 +95,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subcribles.forEach(element => {
-      element.unsubscribe()
+    this.subcribles.forEach((element) => {
+      element.unsubscribe();
     });
   }
 }
