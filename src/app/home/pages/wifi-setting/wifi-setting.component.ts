@@ -65,7 +65,7 @@ export class WifiSettingComponent implements OnInit {
         {label: '20 MHz', value: '20MHz'},
         {label: '40 MHz', value: '40MHz'},
         {label: '80 MHz', value: '80MHz'},
-        {label: '20/40/80 MHz', value: '20/40MHz'},
+        {label: '20/40/80 MHz', value: '20/40/80MHz'},
       ],
       chanel: [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 149, 153, 157, 161],
       power: [25, 50, 75, 100]
