@@ -19,7 +19,7 @@ export class MqttEventService {
   }
 
   subscribe(topic: string): Observable<IMqttMessage> {
-    return this.mqttService.observe(topic);
+    return this.mqttService.observe(topic, {qos: 1});
   }
 
   publish(topic: string, json: string) {

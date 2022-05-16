@@ -8,7 +8,7 @@ export const environment = {
     hostname: 'vhtont.sytes.net',
     port: 1883,
     protocol: 'ws',
-    path: '/mqtt'
+    path: ''
   },
   mqttTimeOut: 15000,
   timoutMessage: 'Device is not responding, please try again later',
